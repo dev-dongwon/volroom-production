@@ -16,4 +16,3 @@ deploy:
   region: "ap-northeast-2"
   app: "volroom"
   env: "volroom"
-  bucket_name: "the-target-S3-bucket"
