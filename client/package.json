@@ -1,0 +1,52 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.4.3",
+    "@material-ui/icons": "^4.4.3",
+    "@material-ui/styles": "^4.4.3",
+    "attachmediastream": "^2.1.0",
+    "autosuggest-highlight": "^3.1.1",
+    "axios": "^0.19.0",
+    "clientjs": "^0.1.11",
+    "react": "^16.9.0",
+    "react-autosuggest": "^9.4.3",
+    "react-dom": "^16.9.0",
+    "react-player": "^1.13.0",
+    "react-router-dom": "^5.1.0",
+    "react-scripts": "3.1.2",
+    "react-swipeable-views": "^0.13.3",
+    "react-transition-group": "^4.3.0",
+    "recharts": "^1.7.1",
+    "simple-peer": "^9.6.0",
+    "socket.io-client": "^2.3.0",
+    "uuid": "^3.3.3",
+    "webrtc-adapter": "^7.3.0",
+    "wrtc": "^0.4.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy": "aws s3 sync ./build s3://volroom-deploy --profile=volroom",
+    "invalidate": "aws cloudfront create-invalidation --profile=volroom --distribution-id E29QO8KD5FG2ZU --paths / /static /index.html /asset-manifest.json /precache-manifest.* /service-worker.js /load.gif /avatar.png /manifest.json /favicon.ico"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:8081/"
+}
