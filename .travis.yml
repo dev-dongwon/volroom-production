@@ -16,3 +16,4 @@ deploy:
   region: "ap-northeast-2"
   app: "volroom"
   env: "volroom"
+  bucket_name: "elasticbeanstalk-ap-northeast-2-158721102684"
