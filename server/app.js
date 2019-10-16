@@ -12,7 +12,8 @@ mongoConnector();
 const express = require("express"),
       morgan  = require("morgan"),
       helmet  = require("helmet"),
-      path    = require("path");
+      path    = require("path"),
+      cors    = require("cors");
 
 // server application
 const app = express();
@@ -20,6 +21,7 @@ const clientApp = path.join(__dirname, '../client/build');
 
 // middlewares
 app.use(helmet());
+app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
