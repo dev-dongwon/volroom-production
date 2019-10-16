@@ -9,10 +9,8 @@ install:
   - npm install
 deploy:
   provider: elasticbeanstalk
-  access_key_id:
-    secure: $ACCESS_KEY_ID
-  secret_access_key:
-    secure: $SECRET_KEY
+  access_key_id: $ACCESS_KEY_ID
+  secret_access_key: $SECRET_KEY
   region: "ap-northeast-2"
   app: "volroom"
   env: "volroom"
