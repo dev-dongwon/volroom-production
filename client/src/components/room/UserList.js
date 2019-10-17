@@ -22,10 +22,14 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     display: "none"
+  },
+  profileName : {
+    fontWeight: "bold",
+    backgroundColor: 'skyblue'
   }
 }));
 
-export default function UserList({ userList }) {
+export default function UserList({ userList, user }) {
   const classes = useStyles();
   const roomContext = useContext(RoomContext);
   const { mySocketId, localStream, makePeer } = roomContext;
@@ -37,35 +41,57 @@ export default function UserList({ userList }) {
 
   return (
     <List dense className={classes.root}>
-      {Object.keys(userList).map((key, index) => {
-        return key !== "username" && key !== "socketId" ? (
-          <ListItem key={key} button>
+      {userList.map((userObj, index) => {
+        return (
+          <ListItem key={index} button>
             <ListItemAvatar>
-              <Avatar alt={key} src={`/avatar.png`} />
+              <Avatar alt={userObj.username} src="/avatar.png" />
             </ListItemAvatar>
-            <span>{key}</span>
-            <ListItemSecondaryAction>
-              <Button
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                size="small"
-                id={userList[key].socketId}
-                onClick={offerVideoCall}
-              >
-                <span id={userList[key].socketId}>video call</span>
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                className={classes.button}
-                size="small"
-              >
-                message
-              </Button>
-            </ListItemSecondaryAction>
+            {user.name === userObj.username ? (
+              <span className={classes.profileName}>me : {userObj.username}</span>
+            ) : (
+              <span>{userObj.username}</span>
+            )}
+
+            {user.name === userObj.username ? null : (
+              <ListItemSecondaryAction>
+                {localStream && userObj.hasStream ? (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    size="small"
+                    id={userObj.socketId}
+                    onClick={offerVideoCall}
+                  >
+                    <span id={userObj.socketId}>video call</span>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    className={classes.button}
+                    size="small"
+                    disabled={true}
+                    id={userObj.socketId}
+                    onClick={offerVideoCall}
+                  >
+                    <span id={userObj.socketId}>video call</span>
+                  </Button>
+                )}
+
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  className={classes.button}
+                  size="small"
+                >
+                  message
+                </Button>
+              </ListItemSecondaryAction>
+            )}
           </ListItem>
-        ) : null;
+        );
       })}
     </List>
   );
