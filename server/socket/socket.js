@@ -14,6 +14,7 @@ const socketConnect = io => {
       mySocketEvent(socket);
       webRtcOfferEvent(socket, nspSocket);
       webRtcAnswerEvent(socket, nspSocket);
+      changeStreamStatus(socket, nspSocket, roomId, username);
 
       socket.on("close", () => {
         socket.leave(socket.handshake.query.roomId);
@@ -60,8 +61,8 @@ const joinEvent = (socket, nspSocket, username) => {
 };
 
 const enterEvent = (socket, nspSocket, roomId, username) => {
-  socket.on("enter", () => {
-    const user = { username, socketId: socket.id };
+  socket.on("enter", hasStream => {
+    const user = { username, socketId: socket.id, hasStream };
 
     nspSocket.in(roomId).clients((err, clients) => {
       nspSocket.in(roomId).emit("sendUserInfo", {
@@ -69,6 +70,13 @@ const enterEvent = (socket, nspSocket, roomId, username) => {
         userNumbers: clients.length
       });
     });
+  });
+};
+
+const changeStreamStatus = (socket, nspSocket, roomId, username) => {
+  socket.on("setStream", () => {
+    const user = { username, socketId: socket.id, hasStream: true };
+    nspSocket.in(roomId).emit("setStreamAnswer", user);
   });
 };
 
