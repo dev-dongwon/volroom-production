@@ -16,7 +16,6 @@ export default (state, action) => {
         chatList: [],
         userList: {},
         localStream: null,
-        remoteStream: null,
         remoteStreamArr: [],
         remotePeerArr: [],
         currentRoom: "",
@@ -47,7 +46,7 @@ export default (state, action) => {
     case SET_REMOTE_STREAM:
       return {
         ...state,
-        remoteStream: action.payload
+        remoteStreamArr: [...state['remoteStreamArr'], action.payload]
       };
     case JOIN_ROOM:
       return {

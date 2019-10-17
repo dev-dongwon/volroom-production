@@ -27,7 +27,6 @@ const RoomState = props => {
     chatList: [],
     userList: {},
     localStream: null,
-    remoteStream: null,
     remoteStreamArr: [],
     remotePeerArr: [],
     currentRoom: "",
@@ -44,7 +43,6 @@ const RoomState = props => {
     userList,
     currentRoom,
     localStream,
-    remoteStream,
     remoteStreamArr,
     remotePeerArr,
     mySocketId
@@ -73,7 +71,6 @@ const RoomState = props => {
   };
 
   const closePeer = async () => {
-    localStream.getTracks().forEach(track => track.stop());
     socket = null;
     client = {};
     peer = null;
@@ -169,7 +166,7 @@ const RoomState = props => {
   // connect Room
   const connectRoom = (namespace, user, roomId, currentRoom) => {
     if (!socket) {
-      socket = io(`server-dev.ap-northeast-2.elasticbeanstalk.com/${namespace}`, {
+      socket = io(`http://localhost:8081/${namespace}`, {
         query: {
           username: user.name,
           roomId: roomId
@@ -285,7 +282,6 @@ const RoomState = props => {
         remoteStreamArr,
         remotePeerArr,
         currentRoom,
-        remoteStream,
         mySocketId,
         makePeer,
         closePeer,

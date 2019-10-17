@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Fab from "@material-ui/core/Fab";
@@ -122,9 +122,9 @@ const Room = ({ match, history }) => {
     windowBackEvent,
     joinRoom,
     currentRoom,
-    remoteStream,
     setStream,
-    deleteRoom
+    deleteRoom,
+    remoteStreamArr
   } = roomContext;
 
   useEffect(() => {
@@ -138,9 +138,7 @@ const Room = ({ match, history }) => {
 
     windowBackEvent();
     // eslint-disable-next-line
-  }, [user, roomId, localStream]);
-
-  const videoRef = useRef(null);
+  }, []);
 
   const [textValue, changeTextValue] = useState("");
 
@@ -203,6 +201,24 @@ const Room = ({ match, history }) => {
     changeTextValue("");
   };
 
+  const localPlayer = stream => {
+    return <ReactPlayer playing url={stream} width="100%" height="100%" />;
+  };
+
+  const peerPlayer = streamArr => {
+    return streamArr.map(stream => {
+      return (
+        <ReactPlayer
+          key={stream.id}
+          playing
+          url={stream}
+          width="80%"
+          height="80%"
+        />
+      );
+    });
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.flex}>
@@ -210,7 +226,6 @@ const Room = ({ match, history }) => {
           <div className={classes.myPlayerArea}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                {/* <Backspace fontSize="large" onClick={onLeave} /> */}
                 <Fab
                   variant="extended"
                   size="medium"
@@ -233,23 +248,12 @@ const Room = ({ match, history }) => {
                 </Fab>
               </Grid>
               <Grid item xs={12} sm={8} className={classes.videoBox}>
-                <ReactPlayer
-                  playing
-                  url={localStream}
-                  width="100%"
-                  height="100%"
-                  ref={videoRef}
-                />
+                {localStream ? localPlayer(localStream) : null}
               </Grid>
               <Grid item xs={12} sm={4}>
-                {remoteStream ? (
-                  <ReactPlayer
-                    playing
-                    url={remoteStream}
-                    width="80%"
-                    height="80%"
-                  />
-                ) : null}
+                {remoteStreamArr.length > 0
+                  ? peerPlayer(remoteStreamArr)
+                  : null}
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="h3">
