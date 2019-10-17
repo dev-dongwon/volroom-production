@@ -25,12 +25,13 @@ let peer;
 const RoomState = props => {
   const initialState = {
     chatList: [],
-    userList: {},
+    userList: [],
     localStream: null,
     remoteStreamArr: [],
     remotePeerArr: [],
     currentRoom: "",
-    mySocketId: null
+    mySocketId: null,
+    hasStream: false
   };
 
   const alertContext = useContext(AlertContext);
@@ -45,7 +46,8 @@ const RoomState = props => {
     localStream,
     remoteStreamArr,
     remotePeerArr,
-    mySocketId
+    mySocketId,
+    hasStream
   } = state;
 
   // Init Peer
@@ -154,8 +156,7 @@ const RoomState = props => {
 
   const deleteRoom = async (topic, roomId, user) => {
     try {
-      const res = await axios.delete(`/api/rooms/${topic}/${roomId}`);
-      console.log(res);
+      await axios.delete(`/api/rooms/${topic}/${roomId}`);
       dispatch({ type: CLEAR_ROOM_STATE, payload: null });
     } catch (error) {
       console.error(error);
@@ -173,7 +174,6 @@ const RoomState = props => {
         }
       });
 
-      enterRoom();
       joinNewMember();
       answerMySocket();
       receiveChat();
@@ -211,11 +211,11 @@ const RoomState = props => {
     });
   };
 
-  const enterRoom = () => {
+  if (socket) {
     socket.on("enter", () => {
-      socket.emit("enter");
+      socket.emit("enter", hasStream);
     });
-  };
+  }
 
   // leave Room
   const leaveRoom = () => {
@@ -263,6 +263,14 @@ const RoomState = props => {
       });
     }
 
+    if (stream) {
+      socket.emit("setStream");
+    }
+
+    socket.on("setStreamAnswer", user => {
+      dispatch({ type: UPDATE_ROOM, payload: { user } });
+    });
+
     dispatch({ type: SET_LOCAL_STREAM, payload: stream });
     backOffer(stream);
     setSignal();
@@ -287,7 +295,8 @@ const RoomState = props => {
         closePeer,
         setStream,
         exitRoom,
-        deleteRoom
+        deleteRoom,
+        hasStream
       }}
     >
       {props.children}

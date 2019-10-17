@@ -19,7 +19,8 @@ export default (state, action) => {
         remoteStreamArr: [],
         remotePeerArr: [],
         currentRoom: "",
-        mySocketId: null
+        mySocketId: null,
+        hasStream: false
       };
     }
     case SET_MY_SOCKET: {
@@ -30,23 +31,22 @@ export default (state, action) => {
     }
     case UPDATE_ROOM:
       const { user } = action.payload;
-      const { username } = user;
+      const filteredList = state.userList.filter(userObj => userObj.username !== user.username);
+
       return {
         ...state,
-        userList: {
-          ...state["userList"],
-          ...(state["userList"][username] = user)
-        }
+        userList: [...filteredList, user]
       };
     case SET_LOCAL_STREAM:
       return {
         ...state,
-        localStream: action.payload
+        localStream: action.payload,
+        hasStream: true
       };
     case SET_REMOTE_STREAM:
       return {
         ...state,
-        remoteStreamArr: [...state['remoteStreamArr'], action.payload]
+        remoteStreamArr: [...state["remoteStreamArr"], action.payload]
       };
     case JOIN_ROOM:
       return {
@@ -63,7 +63,8 @@ export default (state, action) => {
         ...state,
         chatList: [],
         userList: [],
-        currentRoom: ""
+        currentRoom: "",
+        hasStream: false
       };
     default:
       return state;
