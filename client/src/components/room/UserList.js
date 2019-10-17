@@ -4,8 +4,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
+import { Person } from "@material-ui/icons";
 
 import RoomContext from "../../context/room/roomContext";
 
@@ -23,9 +23,11 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: "none"
   },
-  profileName : {
-    fontWeight: "bold",
-    backgroundColor: 'skyblue'
+  profileName: {
+    fontWeight: "bold"
+  },
+  icon: {
+    paddingTop: "8px"
   }
 }));
 
@@ -45,10 +47,12 @@ export default function UserList({ userList, user }) {
         return (
           <ListItem key={index} button>
             <ListItemAvatar>
-              <Avatar alt={userObj.username} src="/avatar.png" />
+              <Person className={classes.icon}></Person>
             </ListItemAvatar>
             {user.name === userObj.username ? (
-              <span className={classes.profileName}>me : {userObj.username}</span>
+              <span className={classes.profileName}>
+                {userObj.username} : me
+              </span>
             ) : (
               <span>{userObj.username}</span>
             )}
