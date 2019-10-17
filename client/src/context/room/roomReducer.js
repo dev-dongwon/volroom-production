@@ -6,11 +6,21 @@ import {
   SET_LOCAL_STREAM,
   SET_REMOTE_STREAM,
   SET_MY_SOCKET,
-  CLEAR_ROOM_STATE
+  CLEAR_ROOM_STATE,
+  SET_CONNECT_LIST
 } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
+    case SET_CONNECT_LIST: {
+      const [mySocketId, targetSocketId] = action.payload;
+      state.connectList = [...state.connectList, mySocketId, targetSocketId];
+      
+      return {
+        ...state,
+        connectList : new Set(state.connectList)
+      }
+    }
     case CLEAR_ROOM_STATE: {
       return {
         chatList: [],

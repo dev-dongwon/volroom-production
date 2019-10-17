@@ -29,6 +29,7 @@ export const SET_LOCAL_STREAM = "SET_LOCAL_STREAM";
 export const SET_REMOTE_STREAM = "SET_REMOTE_STREAM";
 export const SET_MY_SOCKET = "SET_MY_SOCKET";
 export const CLEAR_ROOM_STATE = "CLEAR_ROOM_STATE";
+export const SET_CONNECT_LIST = "SET_CONNECT_LIST";
 
 /* admin type */
 export const GET_LOGS = "GET_LOGS"

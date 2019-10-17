@@ -15,7 +15,8 @@ import {
   SET_LOCAL_STREAM,
   SET_REMOTE_STREAM,
   SET_MY_SOCKET,
-  CLEAR_ROOM_STATE
+  CLEAR_ROOM_STATE,
+  SET_CONNECT_LIST
 } from "../types";
 
 let socket;
@@ -31,7 +32,8 @@ const RoomState = props => {
     remotePeerArr: [],
     currentRoom: "",
     mySocketId: null,
-    hasStream: false
+    hasStream: false,
+    connectList: []
   };
 
   const alertContext = useContext(AlertContext);
@@ -47,7 +49,8 @@ const RoomState = props => {
     remoteStreamArr,
     remotePeerArr,
     mySocketId,
-    hasStream
+    hasStream,
+    connectList
   } = state;
 
   // Init Peer
@@ -103,6 +106,10 @@ const RoomState = props => {
   // make answer Peer - signal을 받고 answer를 보내는 주체 (참여자)
   const answerPeer = (stream, dataObj) => {
     const { offer, targetSocketId, mySocketId } = dataObj;
+    dispatch({
+      type: SET_CONNECT_LIST,
+      payload: [mySocketId, targetSocketId]
+    });
     peer = initPeer("notInit", stream);
     peer.on("signal", data => {
       socket.emit("answer", {
@@ -121,10 +128,14 @@ const RoomState = props => {
   };
 
   const signalAnswer = data => {
-    const { answer } = data;
+    const { answer, mySocketId, targetSocketId } = data;
     client.answer = true;
     peer = client.peer;
     if (answer) {
+      dispatch({
+        type: SET_CONNECT_LIST,
+        payload: [mySocketId, targetSocketId]
+      });
       peer.signal(answer);
     }
   };
@@ -296,7 +307,8 @@ const RoomState = props => {
         setStream,
         exitRoom,
         deleteRoom,
-        hasStream
+        hasStream,
+        connectList
       }}
     >
       {props.children}
