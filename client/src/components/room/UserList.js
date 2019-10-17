@@ -43,11 +43,11 @@ export default function UserList({ userList, user, connectList }) {
 
   useEffect(() => {
     connectList.forEach(id => {
-      userList.map(userObj => {
-        if (id === userObj.socketId) {
-          return (userObj.flag = true);
-        }
-      });
+      userList
+        .filter(userObj => id === userObj.socketId)
+        .map(val => {
+          return (val.flag = true);
+        });
     });
   }, [userList, connectList]);
 
