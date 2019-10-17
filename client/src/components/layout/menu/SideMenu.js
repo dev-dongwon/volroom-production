@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   nav: {
     position: "fixed",
     zIndex: "1",
-    background: "#74BDCB",
+    background: "#282828",
     height: "100vh",
     width: "100%"
   }

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
+import Chip from '@material-ui/core/Chip';
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
@@ -11,12 +11,13 @@ import AlertContext from "../../context/alert/alertContext";
 
 const useStyles = makeStyles({
   card: {
+    backgroundColor: "transparent",
     width: "21%",
     height: "200px",
     margin: "2%",
     float: "left",
     "&:hover": {
-      backgroundColor: "#ccebff"
+      backgroundColor: "#E1E8ED"
     }
   },
 
@@ -29,7 +30,12 @@ const useStyles = makeStyles({
     fontSize: 14
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 12,
+    fontSize: 9,
+    fontWeight: "bold"
+  },
+  chip: {
+    marginLeft: 10
   }
 });
 
@@ -65,12 +71,14 @@ const RoomList = ({ room }) => {
             {room.roomName}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            {room.hostId}
+            @{room.hostId}
           </Typography>
         </CardContent>
-        <CardActions>
-          <Person></Person>
-        </CardActions>
+        <Chip className={classes.chip}
+          icon={<Person></Person>}
+          label={`${room.numberOfPerson} 명`}
+          color="secondary"
+        />
       </Card>
     </Link>
   );

@@ -8,11 +8,12 @@ const useStyles = makeStyles({
   root: {
     width: 220,
     fontSize: "50px",
-    marginLeft: "2rem"
+    marginLeft: "2rem",
+    backgroundColor: "transparent"
   },
   btn: {
     "&:hover": {
-      backgroundColor: "#ccebff"
+      color: "white"
     }
   }
 });

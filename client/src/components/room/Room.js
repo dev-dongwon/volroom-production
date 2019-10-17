@@ -48,12 +48,13 @@ const useStyles = makeStyles(theme => ({
     overflow: "auto"
   },
   messageBox: {
-    height: "10%",
+    height: "12%",
     backgroundColor: "white"
   },
   button: {
     marginTop: "10px",
-    textAlign: "right"
+    textAlign: "right",
+    marginRight: "8px"
   },
   chip: {
     marginLeft: "1rem",
@@ -66,7 +67,8 @@ const useStyles = makeStyles(theme => ({
     padding: "5px"
   },
   textBox: {
-    width: "330px"
+    width: "320px",
+    margin: "8px"
   },
   server: {
     textAlign: "center",
@@ -265,7 +267,7 @@ const Room = ({ match, history }) => {
                   {user && currentRoom && user.name === currentRoom.hostId ? (
                     <Button
                       className={classes.deleteButton}
-                      variant="outlined"
+                      variant="contained"
                       size="small"
                       color="secondary"
                       onClick={onDelete}
@@ -275,7 +277,7 @@ const Room = ({ match, history }) => {
                   ) : (
                     <Button
                       className={classes.deleteButton}
-                      variant="outlined"
+                      variant="contained"
                       size="small"
                       color="secondary"
                       onClick={onExit}

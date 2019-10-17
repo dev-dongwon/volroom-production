@@ -61,7 +61,8 @@ const useStyles = makeStyles(theme => ({
   typo: {
     fontWeight: "900",
     fontSize: "50px",
-    margin: theme.spacing(3)
+    margin: theme.spacing(3),
+    color: "black"
   }
 }));
 
