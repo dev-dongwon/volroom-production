@@ -300,7 +300,7 @@ const Room = ({ match, history }) => {
           </AppBar>
           {userListFlag ? (
             <div className={classes.chatBox}>
-              <UserList userList={userList}></UserList>
+              <UserList userList={userList} user={user}></UserList>
             </div>
           ) : (
             <div className={classes.chatBox}>
