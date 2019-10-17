@@ -15,7 +15,8 @@ class RedisStore {
       roomName,
       privateFlag,
       password,
-      topic
+      topic,
+      numberOfPerson : 1
     };
 
     const result = await this.redisClient.set(
@@ -35,8 +36,8 @@ class RedisStore {
     const result = [];
     for (const key of roomListKey) {
       const room = JSON.parse(await this.redisClient.get(key));
-      const { roomId, hostId, roomName, topic, privateFlag } = room;
-      result.push({ roomId, hostId, roomName, topic, privateFlag });
+      const { roomId, hostId, roomName, topic, privateFlag, numberOfPerson } = room;
+      result.push({ roomId, hostId, roomName, topic, privateFlag, numberOfPerson });
     }
     return result;
   }
@@ -58,14 +59,27 @@ class RedisStore {
     const result = [];
     for (const key of roomListKey) {
       const room = JSON.parse(await this.redisClient.get(key));
-      const { roomId, hostId, roomName, topic, privateFlag } = room;
-      result.push({ roomId, hostId, roomName, topic, privateFlag });
+      const { roomId, hostId, roomName, topic, privateFlag, numberOfPerson } = room;
+      result.push({ roomId, hostId, roomName, topic, privateFlag, numberOfPerson });
     }
     return result;
   }
 
   async removeRoom(key) {
     const result = await this.redisClient.del(key);
+    return result;
+  }
+
+  async updateRoom(namespace, roomId, key, dataObj) {
+    const { name, data } = dataObj;
+    const room = JSON.parse(await this.redisClient.get(key));
+    room[name] = data;
+
+    const result = await this.redisClient.set(
+      `${namespace}:${roomId}`,
+      JSON.stringify(room)
+    );
+
     return result;
   }
 }
