@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function UserList({ userList, user }) {
+export default function UserList({ userList, user, connectList }) {
   const classes = useStyles();
   const roomContext = useContext(RoomContext);
   const { mySocketId, localStream, makePeer } = roomContext;
@@ -40,6 +40,16 @@ export default function UserList({ userList, user }) {
     const targetSocketId = e.target.id;
     makePeer(localStream, mySocketId, targetSocketId);
   };
+
+  useEffect(() => {
+    connectList.forEach(id => {
+      userList.map(userObj => {
+        if (id === userObj.socketId) {
+          return (userObj.flag = true);
+        }
+      });
+    });
+  }, [userList, connectList]);
 
   return (
     <List dense className={classes.root}>
@@ -60,16 +70,30 @@ export default function UserList({ userList, user }) {
             {user.name === userObj.username ? null : (
               <ListItemSecondaryAction>
                 {localStream && userObj.hasStream ? (
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    className={classes.button}
-                    size="small"
-                    id={userObj.socketId}
-                    onClick={offerVideoCall}
-                  >
-                    <span id={userObj.socketId}>video call</span>
-                  </Button>
+                  userObj.flag ? (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      className={classes.button}
+                      size="small"
+                      disabled={true}
+                      id={userObj.socketId}
+                      onClick={offerVideoCall}
+                    >
+                      <span id={userObj.socketId}>connected</span>
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      className={classes.button}
+                      size="small"
+                      id={userObj.socketId}
+                      onClick={offerVideoCall}
+                    >
+                      <span id={userObj.socketId}>video call</span>
+                    </Button>
+                  )
                 ) : (
                   <Button
                     variant="outlined"
