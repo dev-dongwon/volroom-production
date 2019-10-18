@@ -70,10 +70,27 @@ class RedisStore {
     return result;
   }
 
+  updateRoomByNumberOfPerson(roomObj, data) {
+    if (data === "enter") {
+      roomObj.numberOfPerson += 1;
+      return roomObj;
+    }
+
+    if (data === "leave") {
+      roomObj.numberOfPerson -= 1;
+      return roomObj;
+    }
+  }
+
   async updateRoom(namespace, roomId, key, dataObj) {
     const { name, data } = dataObj;
     const room = JSON.parse(await this.redisClient.get(key));
-    room[name] = data;
+
+    if (name === "numberOfPerson") {
+      this.updateRoomByNumberOfPerson(room, data);
+    } else {
+      room[name] = data;
+    }
 
     const result = await this.redisClient.set(
       `${namespace}:${roomId}`,
