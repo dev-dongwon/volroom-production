@@ -165,7 +165,7 @@ const RoomState = props => {
     }
   };
 
-  const deleteRoom = async (topic, roomId, user) => {
+  const deleteRoom = async (topic, roomId) => {
     try {
       await axios.delete(`/api/rooms/${topic}/${roomId}`);
       dispatch({ type: CLEAR_ROOM_STATE, payload: null });
@@ -176,7 +176,7 @@ const RoomState = props => {
   };
 
   // connect Room
-  const connectRoom = (namespace, user, roomId, currentRoom) => {
+  const connectRoom = (namespace, user, roomId) => {
     if (!socket) {
       socket = io(`http://localhost:8081/${namespace}`, {
         query: {
