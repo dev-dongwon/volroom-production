@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3)
   },
   dashboard: {
-    paddingTop: "10%"
+    paddingTop: "5%"
   }
 }));
 
@@ -31,7 +31,7 @@ const Admin = props => {
     <div>
       <div>
         <Typography className={classes.typo}>
-          {"Statistics for Insight"}
+          {"STATISTICS FOR INSIGHT"}
         </Typography>
         <Navigation></Navigation>
         <div className={classes.dashboard}>
