@@ -178,7 +178,7 @@ const RoomState = props => {
   // connect Room
   const connectRoom = (namespace, user, roomId) => {
     if (!socket) {
-      socket = io(`http://localhost:8081/${namespace}`, {
+      socket = io(`https://www.volroomup.space/${namespace}`, {
         query: {
           username: user.name,
           roomId: roomId
