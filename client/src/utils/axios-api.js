@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const axios = Axios.create({
-  baseURL: "http://localhost:8081/"
+  baseURL: "http://www.volroomup.space/"
 });
 
 export default axios;
