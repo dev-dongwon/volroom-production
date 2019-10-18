@@ -1,10 +1,6 @@
 const selectTypes = {
   privateTypes: [
     {
-      value: true,
-      label: "private"
-    },
-    {
       value: false,
       label: "public"
     }

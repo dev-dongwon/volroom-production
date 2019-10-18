@@ -180,8 +180,9 @@ const Lobby = props => {
               id="privateFlag"
               fullWidth
               select
-              label="공개여부"
+              label="공개여부 (현재 공개방 개설만 가능합니다. 비공개방 개설은 향후 지원 예정입니다)"
               name="privateFlag"
+              defaultValue={false}
               className={classes.textField}
               value={privateFlag}
               onChange={handleChange}
