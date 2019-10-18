@@ -13,12 +13,20 @@ const filter = {
     });
 
     const browserData = [
-      { type: "chrome", chrome: chrome.length },
-      { type: "fireFox", fireFox: firefox.length },
-      { type: "explorer", exlorer: explorer.length }
+      { type: "chrome", chrome: chrome.length, num: chrome.length },
+      { type: "fireFox", fireFox: firefox.length, num: firefox.length },
+      { type: "explorer", exlorer: explorer.length, num: explorer.length }
     ];
 
-    return browserData;
+    const maxBrowserNum = Math.max.apply(
+      null,
+      browserData.map(val => {
+        return val.num;
+      })
+    );
+    const maxBrowser = browserData.filter(val => val.num === maxBrowserNum);
+
+    return { browserData, maxBrowser };
   },
   osData: data => {
     const linux = data.filter(val => {
@@ -39,7 +47,54 @@ const filter = {
       { type: "other", num: other.length, fill: "#a4de6c" }
     ];
 
-    return osData;
+    const maxOsNum = Math.max.apply(
+      null,
+      osData.map(val => {
+        return val.num;
+      })
+    );
+    const maxOs = osData.filter(val => val.num === maxOsNum);
+
+    return { osData, maxOs };
+  },
+  userByTimeData: data => {
+    const dawn = data.filter(val => {
+      return new Date(val.date).getHours() > 0 && new Date(val.date).getHours() <= 6;
+    });
+
+    const morning = data.filter(val => {
+      return new Date(val.date).getHours() > 6 && new Date(val.date).getHours() <= 9;
+    });
+
+    const day = data.filter(val => {
+      return new Date(val.date).getHours() > 9 && new Date(val.date).getHours() <= 12;
+    });
+
+    const afternoon = data.filter(val => {
+      return new Date(val.date).getHours() > 12 && new Date(val.date).getHours() <= 18;
+    });
+
+    const evening = data.filter(val => {
+      return new Date(val.date).getHours() > 18 && new Date(val.date).getHours() <= 24;
+    });
+
+    const timeData = [
+      { type: '새벽', num: dawn.length },
+      { type: '아침', num: morning.length },
+      { type: '낮', num: day.length },
+      { type: '오후', num: afternoon.length },
+      { type: '저녁', num: evening.length }
+    ];
+
+    const maxTimeNum = Math.max.apply(
+      null,
+      timeData.map(val => {
+        return val.num;
+      })
+    );
+    const maxTime = timeData.filter(val => val.num === maxTimeNum);
+
+    return { timeData, maxTime };
   }
 };
 
