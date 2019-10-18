@@ -16,7 +16,7 @@ class RedisStore {
       privateFlag,
       password,
       topic,
-      numberOfPerson : 1
+      numberOfPerson : 0
     };
 
     const result = await this.redisClient.set(
