@@ -80,6 +80,17 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "15px",
     marginRight: "15px",
     fontWeight: "bold"
+  },
+  space: {
+    marginTop: "2%"
+  },
+  img: {
+    width: "45%",
+    height: "auto"
+  },
+  caption: {
+    fontSize: "8px",
+    fontWeight: "100"
   }
 }));
 
@@ -98,7 +109,13 @@ const Home = props => {
         <div className={classes.boldContent}>
           REAL TIME VIDEO SHRAING SERVICE, VOLROOM UP
         </div>
-        <div className={classes.contentArea}></div>
+        <div className={classes.space}></div>
+
+        <img
+          className={classes.img}
+          src="https://www.pubnub.com/wp-content/uploads/2014/10/WebRTCVoice.png"
+        ></img>
+
         <div>
           volroom up은 webRTC를 기반으로 리얼 타임에 가까운 화상 채팅을
           지원합니다
