@@ -1,4 +1,5 @@
 const NAMESPACES = require("./namespaces");
+const redis = require("../redis/RedisStore");
 
 const socketConnect = io => {
   NAMESPACES.forEach(namespace => {
@@ -15,9 +16,11 @@ const socketConnect = io => {
       webRtcOfferEvent(socket, nspSocket);
       webRtcAnswerEvent(socket, nspSocket);
       changeStreamStatus(socket, nspSocket, roomId, username);
-
-      socket.on("close", () => {
+      redis.updateRoom(namespace.substring(1), roomId, `${namespace.substring(1)}:${roomId}`, { name : 'numberOfPerson', data: 'enter' });
+      
+      socket.on('disconnect', function(){
         socket.leave(socket.handshake.query.roomId);
+        redis.updateRoom(namespace.substring(1), roomId, `${namespace.substring(1)}:${roomId}`, { name : 'numberOfPerson', data: 'leave' });
       });
     });
   });
