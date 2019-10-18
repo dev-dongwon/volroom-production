@@ -12,5 +12,6 @@ router.get('/', roomController.getAllRoom);
 router.get('/:type', roomController.getRoomsByType);
 // remove room Info
 router.delete('/:namespace/:roomId', roomController.removeRoom);
-
+// update room Info
+router.patch('/:namespace/:roomId', roomController.updateRoom);
 module.exports = router;

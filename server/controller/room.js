@@ -57,6 +57,25 @@ const controller = {
     } catch (error) {
       next(error);
     }
+  },
+
+  // room 정보 업데이트
+  updateRoom: async (req, res, next) => {
+    try {
+      const { namespace, roomId } = req.params;
+      const { dataObj } = req.body;
+
+      const result = await redisStore.updateRoom(
+        namespace,
+        roomId,
+        `${namespace}:${roomId}`,
+        dataObj
+      );
+
+      return res.json(result);
+    } catch (error) {
+      next(error);
+    }
   }
 };
 
