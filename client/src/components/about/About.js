@@ -38,6 +38,20 @@ const Admin = props => {
       <div>
         <Typography className={classes.typo}>{"About"}</Typography>
         <div className={classes.contentArea}>
+          <Typography className={classes.titleTypo}>
+            {"프로젝트 소개"}
+          </Typography>
+          <div className={classes.contentTypo}>
+            <div>
+              • webRTC 프로토콜을 이용한 실시간 화상 채팅 웹 어플리케이션
+            </div>
+            <div>
+              • 사용자 cam video 및 외부 audio 공유, 화면 screen video 및 internal audio 공유 가능
+            </div>
+            <div>
+              • 소규모 비디오 컨퍼런스, 원격 진료, 온라인 강의 등 다양하게 응용 가능
+            </div>
+          </div>
           <div>
             <Typography className={classes.titleTypo}>{"개발환경"}</Typography>
             <div className={classes.contentTypo}>
@@ -107,8 +121,8 @@ const Admin = props => {
                 브라우저를 사용해주세요.
               </div>
               <div>
-                • 세부적인 구현과 오류 처리가 완료되지 않은 베타 버전입니다.
-                꾸준히 개선하도록 노력하겠습니다.
+                • 기본적인 기능은 구현이 되었지만 세부적인 부분에서 예기치 않은 오류가 발생할 수 있습니다.
+                꾸준히 문제점을 파악하고 개선하도록 노력하겠습니다.
               </div>
               <div>
                 • 브라우저 호환성과 모바일 대응도 향후 개선하도록 하겠습니다.
@@ -117,35 +131,6 @@ const Admin = props => {
             </div>
           </div>
           <div>
-            <Typography className={classes.titleTypo}>
-              {"개발목적 && 개발후기"}
-            </Typography>
-            <div className={classes.contentTypo}>
-              <div>
-                • 저는 기타 치는 것을 좋아합니다. 가끔은 친구들과 합주실을
-                빌려서 연주하지만, 거의 대부분의 시간은 방에서 혼자 Youtube에서
-                backing Track을 틀어놓고 혼자 즉흥연주를 연습합니다.
-              </div>
-              <div>
-                • JAM이라고도 부르는 즉흥연주는 특히 기타리스트에게 가장
-                재미있는 놀이이자, 실력의 바로미터이기도 합니다. 전세계에 있는
-                사람과 함께 JAM을 하고 싶다라는 열망에서 기술을 찾아봤습니다.
-              </div>
-              <div>
-                • 즉흥연주에 있어 가장 중요한 것은 레이턴시입니다. 가장 레이턴시
-                비용이 적은 stream 프로토콜을 찾아야 했고, 정답은 webRTC
-                였습니다.
-              </div>
-              <div>
-                • volroom up은 아이디어의 가능성을 직접 구현해 본
-                프로토타입이자, 앞으로 저의 아이디어를 발전시킬 원석이기도
-                합니다.
-              </div>
-              <div>
-                • Gamification을 적용해서 기타 히어로 게임처럼 정말 재미있게
-                연주를 즐길 수 있는 공간을 언젠가는 구현하고 싶습니다.
-              </div>
-            </div>
             <div>
               <Typography className={classes.titleTypo}>{"연락처"}</Typography>
               <div className={classes.contentTypo}>
