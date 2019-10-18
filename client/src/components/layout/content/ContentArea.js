@@ -22,9 +22,8 @@ const ContentArea = () => {
           <Route exact path="/" component={Home} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/search" component={Search} />
           <Route exact path="/lobby" component={Lobby} />
-          <Route exact path="/admin" component={Admin} />
+          <Route exact path="/dashboard" component={Admin} />
           <PrivateRoute
             exact
             path="/rooms/:namespace/:roomId"

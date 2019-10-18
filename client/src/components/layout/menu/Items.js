@@ -3,19 +3,11 @@ import {
   List,
   ListItem,
   ListItemText,
-  // Badge,
   makeStyles,
   Typography,
   Box
 } from "@material-ui/core";
-import {
-  // Mail,
-  Home,
-  MusicNote,
-  // Search,
-  LibraryMusic,
-  // Group
-} from "@material-ui/icons";
+import { Home, MusicNote, LibraryMusic, Dashboard } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import AlertContext from "../../../context/alert/alertContext";
@@ -83,24 +75,12 @@ export default function SimpleList() {
             <ListItemText primary="Play Room" className={classes.text} />
           </ListItem>
         </Link>
-        {/* <ListItem button className={classes.item}>
-          <Badge className={classes.margin} badgeContent={4} color="primary">
-            <Group />
-          </Badge>
-          <ListItemText primary="Friends" className={classes.text} />
-        </ListItem>
-        <ListItem button className={classes.item}>
-          <Badge className={classes.margin} badgeContent={4} color="primary">
-            <Mail />
-          </Badge>
-          <ListItemText primary="Message" className={classes.text} />
-        </ListItem>
-        <Link to="/search">
+        <Link to="/dashboard">
           <ListItem button className={classes.item}>
-            <Search />
-            <ListItemText primary="Search" className={classes.text} />
+            <Dashboard />
+            <ListItemText primary="Dashboard" className={classes.text} />
           </ListItem>
-        </Link> */}
+        </Link>
       </List>
     </div>
   );
