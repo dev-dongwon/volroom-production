@@ -8,7 +8,8 @@ const useStyles = makeStyles({
   root: {
     width: 250,
     fontSize: "50px",
-    marginLeft: "2rem"
+    marginLeft: "2rem",
+    backgroundColor: "transparent"
   },
   btn: {
     width: "500px",
