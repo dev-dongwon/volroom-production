@@ -17,14 +17,18 @@ const socketConnect = io => {
       webRtcAnswerEvent(socket, nspSocket);
       changeStreamStatus(socket, nspSocket, roomId, username);
       redis.updateRoom(namespace.substring(1), roomId, `${namespace.substring(1)}:${roomId}`, { name : 'numberOfPerson', data: 'enter' });
-      
-      socket.on('disconnect', function(){
-        socket.leave(socket.handshake.query.roomId);
-        redis.updateRoom(namespace.substring(1), roomId, `${namespace.substring(1)}:${roomId}`, { name : 'numberOfPerson', data: 'leave' });
-      });
+
+      socketCloseEvent(socket, namespace, roomId);
     });
   });
 };
+
+const socketCloseEvent = (socket, namespace, roomId) => {
+  socket.on('disconnect' || "close", () => {
+    socket.leave(roomId);
+    redis.updateRoom(namespace.substring(1), roomId, `${namespace.substring(1)}:${roomId}`, { name : 'numberOfPerson', data: 'leave' });
+  });
+}
 
 const webRtcAnswerEvent = (socket, nspSocket) => {
   socket.on("answer", ({ data, mySocketId, targetSocketId }) => {
