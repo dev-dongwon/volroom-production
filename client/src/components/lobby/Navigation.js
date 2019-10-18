@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
   btn: {
     "&:hover": {
-      color: "white"
+      backgroundColor: "#ccebff"
     }
   }
 });
