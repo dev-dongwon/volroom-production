@@ -1,11 +1,36 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography, Divider, Button } from "@material-ui/core";
+import { Typography, Button, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import {
+  BorderColor,
+  Forum,
+  LocalHospital,
+  MusicVideo
+} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   button: {
-    margin: theme.spacing(2)
+    margin: theme.spacing(1),
+    width: "14%",
+    borderRadius: "15px",
+    border: "1px solid navy",
+    color: "black",
+    "&:hover": {
+      backgroundColor: "navy",
+      color: "white"
+    }
+  },
+  loginButton: {
+    margin: theme.spacing(1),
+    width: "14%",
+    borderRadius: "15px",
+    border: "1px solid red",
+    color: "black",
+    "&:hover": {
+      backgroundColor: "red",
+      color: "white"
+    }
   },
   typo: {
     textAlign: "center",
@@ -13,18 +38,48 @@ const useStyles = makeStyles(theme => ({
     fontSize: "50px",
     margin: theme.spacing(3)
   },
-  subTtile: {
-    textAlign: "center",
-    margin: theme.spacing(3),
-    marginTop: theme.spacing(5),
-    fontSize: "25px",
-    fontWeight: "700"
+  titleArea: {
+    marginLeft: theme.spacing(4),
+    marginTop: "2%"
+  },
+  buttonArea: {
+    marginLeft: theme.spacing(4),
+    marginTop: "2%"
+  },
+  contentArea: {
+    marginLeft: theme.spacing(5),
+    marginTop: "2%"
+  },
+  title: {
+    fontSize: "65px",
+    color: "white",
+    fontWeight: "900",
+    textShadow: "0 0 4px black"
+  },
+  boldTitle: {
+    fontSize: "65px",
+    color: "black",
+    fontWeight: "900"
+  },
+  boldContent: {
+    fontSize: "20px",
+    color: "black",
+    fontWeight: "500"
   },
   content: {
     textAlign: "center",
-    margin: theme.spacing(3),
+    margin: theme.spacing(4),
     fontSize: "15px",
     fontWeight: "500"
+  },
+  usage: {
+    marginRight: "20px"
+  },
+  usageDesc: {
+    verticalAlign: "text-top",
+    marginLeft: "15px",
+    marginRight: "15px",
+    fontWeight: "bold"
   }
 }));
 
@@ -33,70 +88,64 @@ const Home = props => {
 
   return (
     <div>
-      <Typography className={classes.typo}>{"Voloom Up Service"}</Typography>
-      <Divider></Divider>
-      <div>
-        <Typography className={classes.subTtile}>
-          {"Volroom up 서비스가 뭔가요?"}
+      <div className={classes.titleArea}>
+        <Typography className={classes.title}>
+          {"REAL TIME, CLEAR COMM"}
         </Typography>
-        <Typography className={classes.content}>
-          {
-            "webRTC 프로토콜과 Socket.io를 활용, 실시간으로 CAM VIDEO와 SCREEN을 공유하며 채팅할 수 있는 화상 채팅 서비스입니다"
-          }
-        </Typography>
-        <Typography className={classes.content}>
-          {
-            "현재 기본적인 로컬 로그인과 방을 만들어 실시간 스트리밍으로 화상 채팅을 할 수 있는 기본 기능을 구현했습니다"
-          }
-        </Typography>
-        <Typography className={classes.content}>
-          {"향후 private message와 친구 맺기 기능을 추가할 예정입니다"}
-        </Typography>
+        <Typography className={classes.boldTitle}>{"VOLROOM UP"}</Typography>
       </div>
-      <Divider variant="middle"></Divider>
-
-      <div>
-        <Typography className={classes.subTtile}>
-          {"어디에 이용할 수 있나요?"}
-        </Typography>
-        <Typography className={classes.content}>
-          {
-            "실시간 비디오 컨퍼런스, 원격 의료 지원 서비스, 화상 채팅 등 여러가지 분야에 응용할 수 있습니다"
-          }
-        </Typography>
-        <Typography className={classes.content}>
-          {
-            "플러그인의 도움없이, mobile/web 상관없이 클라이언트의 연결만으로 실시간 스트리밍을 할 수 있기 때문에 확장성이 좋다고 생각합니다"
-          }
-        </Typography>
+      <div className={classes.contentArea}>
+        <div className={classes.boldContent}>
+          REAL TIME VIDEO SHRAING SERVICE, VOLROOM UP
+        </div>
+        <div className={classes.contentArea}></div>
+        <div>
+          volroom up은 webRTC를 기반으로 리얼 타임에 가까운 화상 채팅을
+          지원합니다
+        </div>
+        <div>
+          플러그인 설치없이 간편하게 외부 카메라, 마이크 스트림을 사람들과
+          공유하고,
+        </div>
+        <div>
+          지금 내가 PC에서 사용하고 있는 프로그램의 screen과 내부 sound까지
+          공유가 가능합니다
+        </div>
       </div>
-      <Divider variant="middle"></Divider>
-
-      <div>
-        <Typography className={classes.subTtile}>{"개발환경"}</Typography>
-        <Typography className={classes.content}>
-          {"OS : Linux Ubuntu 18.04"}
-        </Typography>
-        <Typography className={classes.content}>
-          {"BackEnd : node.js, Express.js"}
-        </Typography>
-        <Typography className={classes.content}>
-          {"FrontEnd : React.js"}
-        </Typography>
-        <Typography className={classes.content}>
-          {"Database : MySQL, MongoDB, Redis"}
-        </Typography>
+      <div className={classes.contentArea}>
+        <Grid container>
+          <Grid>
+            <BorderColor></BorderColor>
+          </Grid>
+          <Grid>
+            <span className={classes.usageDesc}>온라인 강좌</span>
+          </Grid>
+          <Grid>
+            <Forum></Forum>
+          </Grid>
+          <Grid>
+            <span className={classes.usageDesc}>소규모 화상회의</span>
+          </Grid>
+          <Grid>
+            <LocalHospital></LocalHospital>
+          </Grid>
+          <Grid>
+            <span className={classes.usageDesc}>원격 진료</span>
+          </Grid>
+          <Grid>
+            <MusicVideo></MusicVideo>
+          </Grid>
+          <Grid>
+            <span className={classes.usageDesc}>실시간 연주 공유</span>
+          </Grid>
+        </Grid>
       </div>
-      <div className={classes.typo}>
+      <div className={classes.buttonArea}>
+        <Link to="/login">
+          <Button className={classes.loginButton}>로그인</Button>
+        </Link>
         <Link to="/lobby">
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.button}
-          >
-            서비스 이용하러 GO!
-          </Button>
+          <Button className={classes.button}>서비스 이용하기</Button>
         </Link>
       </div>
     </div>
