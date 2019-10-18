@@ -3,7 +3,6 @@ import { Grid } from "@material-ui/core";
 import Signup from "../../auth/Signup";
 import Login from "../../auth/Login";
 import Alert from "../../layout/alert/Alert";
-import Search from "../../search/Search";
 import Home from "../../home/Home";
 import Lobby from "../../lobby/Lobby";
 import Room from "../../room/Room";
