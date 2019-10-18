@@ -7,7 +7,7 @@ import {
   Typography,
   Box
 } from "@material-ui/core";
-import { Home, MusicNote, LibraryMusic, Dashboard } from "@material-ui/icons";
+import { Home, MusicNote, LibraryMusic, Dashboard, QuestionAnswer } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import AlertContext from "../../../context/alert/alertContext";
@@ -79,6 +79,12 @@ export default function SimpleList() {
           <ListItem button className={classes.item}>
             <Dashboard />
             <ListItemText primary="Dashboard" className={classes.text} />
+          </ListItem>
+        </Link>
+        <Link to="/about">
+          <ListItem button className={classes.item}>
+            <QuestionAnswer />
+            <ListItemText primary="About" className={classes.text} />
           </ListItem>
         </Link>
       </List>
