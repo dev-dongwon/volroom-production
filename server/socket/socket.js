@@ -89,8 +89,8 @@ const changeStreamStatus = (socket, nspSocket, roomId, username) => {
 
 const chatEvent = (socket, nspSocket) => {
   socket.on("chat", data => {
-    const { roomId, from, msg } = data;
-    nspSocket.in(roomId).emit("chat", { from, msg });
+    const { roomId, from, msg, chatColor } = data;
+    nspSocket.in(roomId).emit("chat", { from, msg, chatColor });
   });
 };
 
