@@ -25,7 +25,7 @@ const controller = {
       password = await encryptPassword(password);
       const user = await createUser({ name, email, password });
 
-      const token = await generateJwtToken(user.id);
+      const token = await generateJwtToken(user);
       return res.json({ token });
 
     } catch (error) {
