@@ -6,7 +6,7 @@ import {
   BorderColor,
   Forum,
   LocalHospital,
-  MusicVideo
+  Computer
 } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
@@ -151,19 +151,19 @@ const Home = props => {
             <span className={classes.usageDesc}>원격 진료</span>
           </Grid>
           <Grid>
-            <MusicVideo></MusicVideo>
+            <Computer></Computer>
           </Grid>
           <Grid>
-            <span className={classes.usageDesc}>실시간 연주 공유</span>
+            <span className={classes.usageDesc}>생생한 코드 리뷰(!)</span>
           </Grid>
         </Grid>
       </div>
       <div className={classes.buttonArea}>
-        <Link to="/login">
-          <Button className={classes.loginButton}>로그인</Button>
+        <Link to="/about">
+          <Button className={classes.loginButton}>서비스 소개</Button>
         </Link>
         <Link to="/lobby">
-          <Button className={classes.button}>서비스 이용하기</Button>
+          <Button className={classes.button}>이용하러 가기</Button>
         </Link>
       </div>
     </div>
