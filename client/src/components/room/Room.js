@@ -3,14 +3,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Fab from "@material-ui/core/Fab";
 import { AirplayOutlined, Person } from "@material-ui/icons";
+import ScrollToBottom from 'react-scroll-to-bottom';
 
 import AuthContext from "../../context/auth/authContext";
 import RoomContext from "../../context/room/roomContext";
 import AlertContext from "../../context/alert/alertContext";
 import UserList from "./UserList";
+import ChatList from "./ChatList";
 
 import {
-  Chip,
   Button,
   TextField,
   AppBar,
@@ -56,19 +57,18 @@ const useStyles = makeStyles(theme => ({
     textAlign: "right",
     marginRight: "8px"
   },
-  chip: {
-    marginLeft: "1rem",
-    marginRight: "1rem"
-  },
   message: {
     alignItems: "center"
   },
   messageWrapper: {
-    padding: "5px"
+    padding: "5px",
+    margin: "auto",
+    width: "300px",
+    wordBreak: "break-all"
   },
   textBox: {
     width: "320px",
-    margin: "8px"
+    margin: "10px"
   },
   server: {
     textAlign: "center",
@@ -95,6 +95,13 @@ const useStyles = makeStyles(theme => ({
   },
   videoBox: {
     height: "600px"
+  },
+  chatMsg: {
+    paddingLeft: "15px",
+    paddingTop: "5px"
+  },
+  chatFrom: {
+    fontWeight: "bolder"
   }
 }));
 
@@ -303,29 +310,16 @@ const Room = ({ match, history }) => {
           </AppBar>
           {userListFlag ? (
             <div className={classes.chatBox}>
-              <UserList userList={userList} user={user} connectList={connectList}></UserList>
+              <UserList
+                userList={userList}
+                user={user}
+                connectList={connectList}
+              ></UserList>
             </div>
           ) : (
-            <div className={classes.chatBox}>
-              {chatList.map((chat, i) => {
-                return chat.from === "server:entrance" ? (
-                  <div className={classes.server} key={i}>
-                    <span className={classes.entrance}>{chat.msg}</span>
-                    <span>님이 입장하셨습니다</span>
-                  </div>
-                ) : (
-                  <div
-                    className={classes.flex}
-                    key={i}
-                    // eslint-disable-next-line
-                    className={classes.messageWrapper}
-                  >
-                    <Chip label={chat.from} className={classes.chip} />
-                    {chat.msg}
-                  </div>
-                );
-              })}
-            </div>
+            <ScrollToBottom className={classes.chatBox}>
+              <ChatList chatList={chatList} classes={classes}></ChatList>
+            </ScrollToBottom>
           )}
           <div className={classes.messageBox}>
             <div>
