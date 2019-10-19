@@ -12,7 +12,7 @@ import {
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
-    width: "14%",
+    width: "20%",
     borderRadius: "15px",
     border: "1px solid navy",
     color: "black",
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   loginButton: {
     margin: theme.spacing(1),
-    width: "14%",
+    width: "20%",
     borderRadius: "15px",
     border: "1px solid red",
     color: "black",
