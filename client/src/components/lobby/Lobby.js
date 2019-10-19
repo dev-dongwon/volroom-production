@@ -54,9 +54,9 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2)
   },
   buttonArea: {
-    textAlign: "center",
     marginTop: "1rem",
-    marginBottom: "1rem"
+    marginBottom: "1rem",
+    marginRight: "37%"
   },
   typo: {
     fontWeight: "900",
@@ -99,10 +99,6 @@ const Lobby = props => {
   };
 
   const handleOpen = () => {
-    if (!user) {
-      setAlert("로그인이 필요한 서비스입니다");
-      return;
-    }
     setValues({ ...values, open: true });
   };
 
@@ -115,12 +111,10 @@ const Lobby = props => {
 
     if (roomName.length < 1) {
       setAlert("방제를 입력해주세요");
-      return;
     }
 
-    if (privateFlag && password.length < 1) {
-      setAlert("비밀번호를 입력해주세요");
-      return;
+    if (topic.length < 1) {
+      setAlert("주제를 선택해주세요");
     }
 
     makeRoom(
@@ -157,7 +151,7 @@ const Lobby = props => {
       </div>
       <div>
         {rooms.map(val => (
-          <RoomList room={val} key={val.roomId}></RoomList>
+          <RoomList room={val} key={val.roomId} props={props}></RoomList>
         ))}
       </div>
 
@@ -241,26 +235,22 @@ const Lobby = props => {
             ) : null}
           </form>
           <div className={classes.buttonArea}>
-            <span>
-              <Button
-                variant="outlined"
-                color="primary"
-                className={classes.button}
-                onClick={onSubmit}
-              >
-                create
-              </Button>
-            </span>
-            <span>
-              <Button
-                variant="outlined"
-                color="secondary"
-                className={classes.button}
-                onClick={handleClose}
-              >
-                cancel
-              </Button>
-            </span>
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classes.button}
+              onClick={onSubmit}
+            >
+              create
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              className={classes.button}
+              onClick={handleClose}
+            >
+              cancel
+            </Button>
           </div>
         </div>
       </Modal>
