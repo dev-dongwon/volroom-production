@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -36,8 +36,11 @@ export default function UserList({ userList, user, connectList }) {
   const roomContext = useContext(RoomContext);
   const { mySocketId, localStream, makePeer } = roomContext;
 
+  const [value, setValue] = useState(false);
+
   const offerVideoCall = e => {
     const targetSocketId = e.target.id;
+    setValue(true);
     makePeer(localStream, mySocketId, targetSocketId);
   };
 
@@ -88,6 +91,7 @@ export default function UserList({ userList, user, connectList }) {
                       color="primary"
                       className={classes.button}
                       size="small"
+                      disabled={value}
                       id={userObj.socketId}
                       onClick={offerVideoCall}
                     >
