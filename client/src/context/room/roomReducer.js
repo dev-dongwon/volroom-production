@@ -24,7 +24,7 @@ export default (state, action) => {
     case CLEAR_ROOM_STATE: {
       return {
         chatList: [],
-        userList: {},
+        userList: [],
         localStream: null,
         remoteStreamArr: [],
         remotePeerArr: [],
