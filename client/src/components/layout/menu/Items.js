@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   List,
   ListItem,
@@ -9,9 +9,6 @@ import {
 } from "@material-ui/core";
 import { Home, MusicNote, LibraryMusic, Dashboard, QuestionAnswer } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-
-import AlertContext from "../../../context/alert/alertContext";
-import AuthContext from "../../../context/auth/authContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,17 +34,6 @@ const useStyles = makeStyles(theme => ({
 export default function SimpleList() {
   const classes = useStyles();
 
-  const alertContext = useContext(AlertContext);
-  const authContext = useContext(AuthContext);
-  const { isAuthenticated } = authContext;
-  const { setAlert } = alertContext;
-
-  const onPrivate = e => {
-    if (!isAuthenticated) {
-      setAlert("로그인이 필요한 서비스입니다");
-    }
-  };
-
   return (
     <div className={classes.root}>
       <Typography variant="h5" letterSpacing={2}>
@@ -69,7 +55,7 @@ export default function SimpleList() {
             <ListItemText primary="Home" className={classes.text} />
           </ListItem>
         </Link>
-        <Link to="/lobby" onClick={onPrivate}>
+        <Link to="/lobby">
           <ListItem button className={classes.item}>
             <LibraryMusic />
             <ListItemText primary="Play Room" className={classes.text} />
