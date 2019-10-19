@@ -114,6 +114,7 @@ const Home = props => {
         <img
           className={classes.img}
           src="https://www.pubnub.com/wp-content/uploads/2014/10/WebRTCVoice.png"
+          alt="webRTC image"
         ></img>
 
         <div>
