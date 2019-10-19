@@ -26,7 +26,7 @@ const LobbyState = props => {
       const roomList = res.data;
       dispatch({ type: LOAD_ROOMS, payload: roomList });
     } catch (error) {
-      setAlert('네트워크 문제가 발생했습니다. 다시 시도해주세요')
+      setAlert("네트워크 문제가 발생했습니다. 다시 시도해주세요");
     }
   };
 
@@ -37,7 +37,7 @@ const LobbyState = props => {
       const roomList = res.data;
       dispatch({ type: LOAD_ROOMS, payload: roomList });
     } catch (error) {
-      setAlert('네트워크 문제가 발생했습니다. 다시 시도해주세요')
+      setAlert("네트워크 문제가 발생했습니다. 다시 시도해주세요");
     }
   };
 
@@ -55,7 +55,18 @@ const LobbyState = props => {
 
       dispatch({ type: MAKE_ROOM, payload: room });
     } catch (error) {
-      setAlert('네트워크 문제가 발생했습니다. 다시 시도해주세요')
+      setAlert("네트워크 문제가 발생했습니다. 다시 시도해주세요");
+    }
+  };
+
+  const getRoom = async (namespace, roomId) => {
+    try {
+      const res = await axios.get(`/api/rooms/${namespace}/${roomId}`);
+      const room = res.data;
+
+      dispatch({ type: MAKE_ROOM, payload: room });
+    } catch (error) {
+      setAlert("네트워크 문제가 발생했습니다. 다시 시도해주세요");
     }
   };
 
@@ -66,7 +77,8 @@ const LobbyState = props => {
         loadRooms,
         loadRoomsByType,
         room,
-        rooms
+        rooms,
+        getRoom
       }}
     >
       {props.children}
