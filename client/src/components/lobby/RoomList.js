@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import Chip from '@material-ui/core/Chip';
+import Chip from "@material-ui/core/Chip";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
@@ -39,7 +39,7 @@ const useStyles = makeStyles({
   }
 });
 
-const RoomList = ({ room }) => {
+const RoomList = ({ room, props }) => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
@@ -52,6 +52,7 @@ const RoomList = ({ room }) => {
   const onClickHandler = e => {
     if (!user) {
       e.preventDefault();
+      props.history.push("/login");
       setAlert("로그인이 필요한 서비스입니다");
     }
   };
@@ -74,7 +75,8 @@ const RoomList = ({ room }) => {
             @{room.hostId}
           </Typography>
         </CardContent>
-        <Chip className={classes.chip}
+        <Chip
+          className={classes.chip}
           icon={<Person></Person>}
           label={`${room.numberOfPerson} 명`}
           color="secondary"
