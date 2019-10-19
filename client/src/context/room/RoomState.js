@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import axios from "../../utils/axios-api";
 import Peer from "simple-peer";
 import wrtc from "wrtc";
+import randomColor from "randomcolor";
 
 import RoomContext from "./roomContext";
 import RoomReducer from "./roomReducer";
@@ -33,7 +34,8 @@ const RoomState = props => {
     currentRoom: "",
     mySocketId: null,
     hasStream: false,
-    connectList: []
+    connectList: [],
+    chatColor: randomColor()
   };
 
   const alertContext = useContext(AlertContext);
@@ -50,7 +52,8 @@ const RoomState = props => {
     remotePeerArr,
     mySocketId,
     hasStream,
-    connectList
+    connectList,
+    chatColor
   } = state;
 
   // Init Peer
@@ -308,7 +311,8 @@ const RoomState = props => {
         exitRoom,
         deleteRoom,
         hasStream,
-        connectList
+        connectList,
+        chatColor
       }}
     >
       {props.children}

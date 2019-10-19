@@ -16,7 +16,7 @@ const ChatList = ({ chatList, classes }) => {
             // eslint-disable-next-line
             className={classes.messageWrapper}
           >
-            <div className={classes.chatFrom}>{chat.from} :</div>
+            <div className={classes.chatFrom} style={{color:`${chat.chatColor}`}}>{chat.from} :</div>
             <div className={classes.chatMsg}>{chat.msg}</div>
           </div>
         );

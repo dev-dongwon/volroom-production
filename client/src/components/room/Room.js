@@ -3,11 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from "react-player";
 import Fab from "@material-ui/core/Fab";
 import { AirplayOutlined, Person } from "@material-ui/icons";
-import ScrollToBottom from 'react-scroll-to-bottom';
+import ScrollToBottom from "react-scroll-to-bottom";
 
 import AuthContext from "../../context/auth/authContext";
 import RoomContext from "../../context/room/roomContext";
 import AlertContext from "../../context/alert/alertContext";
+import LobbyContext from "../../context/lobby/lobbyContext";
+
 import UserList from "./UserList";
 import ChatList from "./ChatList";
 
@@ -110,6 +112,7 @@ const Room = ({ match, history }) => {
   const authContext = useContext(AuthContext);
   const roomContext = useContext(RoomContext);
   const alertContext = useContext(AlertContext);
+  const lobbyContext = useContext(LobbyContext);
 
   const [values, setValues] = useState({
     topic: match.params.namespace,
@@ -121,6 +124,7 @@ const Room = ({ match, history }) => {
 
   const { user } = authContext;
   const { setAlert } = alertContext;
+  const { room, getRoom } = lobbyContext;
 
   let {
     chatList,
@@ -134,7 +138,8 @@ const Room = ({ match, history }) => {
     setStream,
     deleteRoom,
     remoteStreamArr,
-    connectList
+    connectList,
+    chatColor
   } = roomContext;
 
   useEffect(() => {
@@ -142,13 +147,22 @@ const Room = ({ match, history }) => {
       await joinRoom(topic, roomId, user);
     }
 
-    if (user) {
+    if (room === "") {
+      getRoom(topic, roomId);
+    }
+
+    if (room !== "" && user) {
       join();
+    }
+
+    if (!localStorage.getItem("token")) {
+      setAlert('로그인이 필요한 서비스입니다');
+      history.push("/login");
     }
 
     windowBackEvent();
     // eslint-disable-next-line
-  }, []);
+  }, [room, user]);
 
   const [textValue, changeTextValue] = useState("");
 
@@ -204,7 +218,8 @@ const Room = ({ match, history }) => {
     const msgObj = {
       roomId,
       from: user.name,
-      msg: textValue
+      msg: textValue,
+      chatColor
     };
 
     sendChatAction(msgObj);
