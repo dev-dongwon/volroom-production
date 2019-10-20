@@ -5,7 +5,7 @@ const sequelize = require("./db/models").sequelize;
 sequelize.sync();
 
 // mongo DB
-const mongoConnector = require('./mongoDB/connect-mongo');
+const mongoConnector = require("./mongoDB/connect-mongo");
 mongoConnector();
 
 // import modules
@@ -29,6 +29,9 @@ app.use(express.json());
 const apiRouter = require("./routes/api");
 
 // routes
+app.get('/.well-known/pki-validation/FE3C94157F15039581C5E8153A7D4DB2.txt', (req, res) => {
+  res.sendFile(__dirname + '/.well-known/pki-validation/FE3C94157F15039581C5E8153A7D4DB2.txt');
+});
 app.use("/api", apiRouter);
 app.use('*', express.static(clientApp));
 module.exports = app;
