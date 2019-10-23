@@ -73,7 +73,7 @@ const Lobby = props => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
-  const { user } = authContext;
+  const { user, isAuthenticated } = authContext;
   const { makeRoom, loadRooms, rooms } = lobbyContext;
 
   useEffect(() => {
@@ -99,6 +99,10 @@ const Lobby = props => {
   };
 
   const handleOpen = () => {
+    if (!isAuthenticated) {
+      setAlert('로그인이 필요한 서비스입니다');
+      props.history.push('/login'); 
+    }
     setValues({ ...values, open: true });
   };
 
