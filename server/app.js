@@ -29,9 +29,6 @@ app.use(express.json());
 const apiRouter = require("./routes/api");
 
 // routes
-app.get('/.well-known/pki-validation/FE3C94157F15039581C5E8153A7D4DB2.txt', (req, res) => {
-  res.sendFile(__dirname + '/.well-known/pki-validation/FE3C94157F15039581C5E8153A7D4DB2.txt');
-});
 app.use("/api", apiRouter);
 app.use('*', express.static(clientApp));
 module.exports = app;
