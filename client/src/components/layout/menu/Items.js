@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   List,
   ListItem,
@@ -7,8 +7,16 @@ import {
   Typography,
   Box
 } from "@material-ui/core";
-import { Home, MusicNote, LibraryMusic, Dashboard, QuestionAnswer } from "@material-ui/icons";
+import {
+  Home,
+  MusicNote,
+  LibraryMusic,
+  Dashboard,
+  QuestionAnswer,
+  ContactMail
+} from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import AuthContext from "../../../context/auth/authContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -33,6 +41,9 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function SimpleList() {
   const classes = useStyles();
+  const authContext = useContext(AuthContext);
+
+  const { isAuthenticated } = authContext;
 
   return (
     <div className={classes.root}>
@@ -67,6 +78,16 @@ export default function SimpleList() {
             <ListItemText primary="Dashboard" className={classes.text} />
           </ListItem>
         </Link>
+  
+        {isAuthenticated ? (
+          <Link to="/profile">
+            <ListItem button className={classes.item}>
+              <ContactMail />
+              <ListItemText primary="My Profile" className={classes.text} />
+            </ListItem>
+          </Link>
+        ) : null}
+
         <Link to="/about">
           <ListItem button className={classes.item}>
             <QuestionAnswer />

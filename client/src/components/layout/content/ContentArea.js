@@ -8,6 +8,7 @@ import Lobby from "../../lobby/Lobby";
 import Room from "../../room/Room";
 import Admin from "../../admin/Admin";
 import About from "../../about/About";
+import Profile from "../../profile/Profile";
 // eslint-disable-next-line
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -24,6 +25,7 @@ const ContentArea = () => {
           <Route exact path="/lobby" component={Lobby} />
           <Route exact path="/dashboard" component={Admin} />
           <Route exact path="/about" component={About} />
+          <Route exact path="/profile" component={Profile} />
           <Route exact path="/rooms/:namespace/:roomId" component={Room} />
         </Switch>
       </Grid>
