@@ -32,5 +32,9 @@ export const CLEAR_ROOM_STATE = "CLEAR_ROOM_STATE";
 export const SET_CONNECT_LIST = "SET_CONNECT_LIST";
 
 /* admin type */
-export const GET_LOGS = "GET_LOGS"
-export const GET_LOG_TYPES = "GET_LOG_TYPES"
+export const GET_LOGS = "GET_LOGS";
+export const GET_LOG_TYPES = "GET_LOG_TYPES";
+
+/* profile type */
+export const GET_PROFILE_STREAM = "GET_PROFILE_STREAM";
+export const CLEAR_PROFILE_STREAM = "CLEAR_PROFILE_STREAM";
