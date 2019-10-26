@@ -36,5 +36,4 @@ export const GET_LOGS = "GET_LOGS";
 export const GET_LOG_TYPES = "GET_LOG_TYPES";
 
 /* profile type */
-export const GET_PROFILE_STREAM = "GET_PROFILE_STREAM";
-export const CLEAR_PROFILE_STREAM = "CLEAR_PROFILE_STREAM";
+export const SET_PROFILE_STREAM = "SET_PROFILE_STREAM";
