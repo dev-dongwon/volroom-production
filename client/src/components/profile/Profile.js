@@ -89,16 +89,21 @@ const useStyles = makeStyles(theme => ({
   },
   profileSnapshot: {
     padding: "10%"
+  },
+  canvasWrapper: {
+    position: "absolute",
+    top: "31%",
   }
 }));
 
 const Profile = () => {
   const classes = useStyles();
   const profileContext = useContext(ProfileContext);
-  const { getStream, profileStream, removeStream } = profileContext;
+  const { getStream, profileStream, removeStream, detectFace } = profileContext;
 
   const videoRef = useRef();
   const imgRef = useRef();
+  const canvasRef = useRef();
 
   const [values, setValues] = useState({
     open: false,
@@ -124,8 +129,15 @@ const Profile = () => {
     setValues({ ...values, isSnapshot: false });
   };
 
+  const faceDetecting = () => {
+    const videoElement = videoRef.current.getInternalPlayer();
+    const canvasElement = canvasRef.current;
+    detectFace(videoElement, canvasElement);
+  };
+
   const drawImage = () => {
     const videoElement = videoRef.current.getInternalPlayer();
+
     const canvas = document.createElement("canvas");
 
     canvas.width = videoElement.videoWidth;
@@ -237,9 +249,9 @@ const Profile = () => {
                   variant="contained"
                   color="primary"
                   size="medium"
-                  onClick={drawImage}
+                  onClick={faceDetecting}
                 >
-                  Take Snapshot
+                  Start face detecting
                 </Button>
               </div>
               {profileStream ? (
@@ -251,6 +263,7 @@ const Profile = () => {
                   height="100%"
                 />
               ) : null}
+              <div className={classes.canvasWrapper} ref={canvasRef}></div>
             </Grid>
             <Grid item xs={6}>
               {isSnapshot ? (
