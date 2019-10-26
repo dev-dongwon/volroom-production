@@ -24,6 +24,7 @@
     "recharts": "^1.7.1",
     "simple-peer": "^9.6.0",
     "socket.io-client": "^2.3.0",
+    "use-interval": "^1.1.0",
     "uuid": "^3.3.3",
     "webrtc-adapter": "^7.3.0",
     "wrtc": "^0.4.2"
