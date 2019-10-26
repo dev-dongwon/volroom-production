@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -9,6 +9,8 @@ import {
   Paper,
   Typography
 } from "@material-ui/core";
+import ReactPlayer from "react-player";
+import ProfileContext from "../../context/profile/profileContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,16 +61,15 @@ const useStyles = makeStyles(theme => ({
     background: "white",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    width: "70%",
-    height: "auto",
-    marginLeft: "15%",
+    width: "60%",
+    height: "60%",
+    marginLeft: "20%",
     borderRadius: "15px",
     marginTop: "10%"
   },
   buttonArea: {
     textAlign: "center",
-    marginTop: "5%"
-
+    marginTop: "15px"
   },
   textField: {
     margin: "4%",
@@ -85,24 +86,56 @@ const useStyles = makeStyles(theme => ({
   },
   contentArea: {
     marginBottom: "5%"
+  },
+  profileSnapshot: {
+    padding: "10%"
   }
 }));
 
 const Profile = () => {
   const classes = useStyles();
+  const profileContext = useContext(ProfileContext);
+  const { getStream, profileStream, removeStream } = profileContext;
+
+  const videoRef = useRef();
+  const imgRef = useRef();
 
   const [values, setValues] = useState({
-    open: false
+    open: false,
+    isSnapshot: false
   });
 
-  let { open } = values;
+  let { open, isSnapshot } = values;
 
-  const handleOpen = () => {
-    setValues({ ...values, open: true });
+  useEffect(() => {
+    if (profileStream) {
+      setValues({ ...values, open: true });
+    } else {
+      setValues({ ...values, open: false });
+    }
+  }, [profileStream]);
+
+  const handleOpen = async () => {
+    await getStream();
   };
 
   const handleClose = () => {
-    setValues({ ...values, open: false });
+    removeStream(profileStream);
+    setValues({ ...values, isSnapshot: false });
+  };
+
+  const drawImage = () => {
+    const videoElement = videoRef.current.getInternalPlayer();
+    const canvas = document.createElement("canvas");
+
+    canvas.width = videoElement.videoWidth;
+    canvas.height = videoElement.videoHeight;
+
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+    imgRef.current.setAttribute("src", canvas.toDataURL("image/png"));
+    setValues({ ...values, isSnapshot: true });
   };
 
   return (
@@ -196,7 +229,43 @@ const Profile = () => {
         </div>
       </div>
       <Modal open={open} className={classes.modal} onClose={handleClose}>
-        <div className={classes.paper}></div>
+        <div className={classes.paper}>
+          <Grid container spacing={1} className={classes.gridContainer}>
+            <Grid item xs={6}>
+              <div className={classes.buttonArea}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="medium"
+                  onClick={drawImage}
+                >
+                  Take Snapshot
+                </Button>
+              </div>
+              {profileStream ? (
+                <ReactPlayer
+                  playing
+                  url={profileStream}
+                  ref={videoRef}
+                  width="100%"
+                  height="100%"
+                />
+              ) : null}
+            </Grid>
+            <Grid item xs={6}>
+              {isSnapshot ? (
+                <div className={classes.buttonArea}>
+                  <Button variant="outlined" color="primary" size="medium">
+                    Face detecting
+                  </Button>
+                </div>
+              ) : null}
+              <div className={classes.profileSnapshot}>
+                <img ref={imgRef} className={classes.profilePhoto}></img>
+              </div>
+            </Grid>
+          </Grid>
+        </div>
       </Modal>
     </div>
   );

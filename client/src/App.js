@@ -8,6 +8,7 @@ import AlertState from "./context/alert/AlertState";
 import LobbyState from "./context/lobby/LobbyState";
 import RoomState from "./context/room/RoomState";
 import AdminState from "./context/admin/AdminState";
+import ProfileState from "./context/profile/ProfileState";
 import "./App.css";
 
 const App = () => {
@@ -17,13 +18,15 @@ const App = () => {
         <LobbyState>
           <RoomState>
             <AdminState>
-              <Router>
-                <Grid container>
-                  <CssBaseline />
-                  <SideMenu />
-                  <ContentArea />
-                </Grid>
-              </Router>
+              <ProfileState>
+                <Router>
+                  <Grid container>
+                    <CssBaseline />
+                    <SideMenu />
+                    <ContentArea />
+                  </Grid>
+                </Router>
+              </ProfileState>
             </AdminState>
           </RoomState>
         </LobbyState>
