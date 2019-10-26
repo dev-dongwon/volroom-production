@@ -1,16 +1,9 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  Modal,
-  TextField,
-  MenuItem,
-  Grid,
-  Paper,
-  Typography
-} from "@material-ui/core";
+import { Button, Modal, TextField, Grid, Typography } from "@material-ui/core";
 import ReactPlayer from "react-player";
 import ProfileContext from "../../context/profile/profileContext";
+import useInterval from "use-interval";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,7 +48,8 @@ const useStyles = makeStyles(theme => ({
   },
   profilePhoto: {
     width: "100%",
-    height: "100%"
+    height: "100%",
+    margin: "auto"
   },
   paper: {
     background: "white",
@@ -88,18 +82,33 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "5%"
   },
   profileSnapshot: {
-    padding: "10%"
+    textAlign: "center"
   },
   canvasWrapper: {
     position: "absolute",
-    top: "31%",
+    top: "31%"
+  },
+  submitButtonArea: {
+    marginTop: "5%",
+    float: "right"
+  },
+  button: {
+    marginLeft: theme.spacing(3)
   }
 }));
 
 const Profile = () => {
   const classes = useStyles();
   const profileContext = useContext(ProfileContext);
-  const { getStream, profileStream, removeStream, detectFace } = profileContext;
+
+  let {
+    getStream,
+    profileStream,
+    removeStream,
+    imageLocationArr,
+    setFaceCanvas,
+    detectFaceArea
+  } = profileContext;
 
   const videoRef = useRef();
   const imgRef = useRef();
@@ -107,10 +116,19 @@ const Profile = () => {
 
   const [values, setValues] = useState({
     open: false,
-    isSnapshot: false
+    intervalFlag: false,
+    videoElementVal: null,
+    displaySizeVal: null,
+    canvasVal: null
   });
 
-  let { open, isSnapshot } = values;
+  let {
+    open,
+    intervalFlag,
+    videoElementVal,
+    displaySizeVal,
+    canvasVal
+  } = values;
 
   useEffect(() => {
     if (profileStream) {
@@ -118,36 +136,67 @@ const Profile = () => {
     } else {
       setValues({ ...values, open: false });
     }
+    // eslint-disable-next-line
   }, [profileStream]);
+
+  useInterval(
+    () => {
+      detectFaceArea(videoElementVal, displaySizeVal, canvasVal);
+    },
+    intervalFlag ? 100 : null
+  );
 
   const handleOpen = async () => {
     await getStream();
   };
 
+  const handleSubmitProfile = () => {};
+
+  const handleCancelProfile = () => {
+    handleClose();
+  };
+
   const handleClose = () => {
     removeStream(profileStream);
-    setValues({ ...values, isSnapshot: false });
+    setValues({ ...values, intervalFlag: false });
   };
 
   const faceDetecting = () => {
     const videoElement = videoRef.current.getInternalPlayer();
     const canvasElement = canvasRef.current;
-    detectFace(videoElement, canvasElement);
+    const { displaySize, canvas } = setFaceCanvas(videoElement, canvasElement);
+
+    setValues({
+      ...values,
+      videoElementVal: videoElement,
+      displaySizeVal: displaySize,
+      canvasVal: canvas,
+      intervalFlag: true
+    });
   };
 
   const drawImage = () => {
+    const [x, y, width, height] = imageLocationArr;
     const videoElement = videoRef.current.getInternalPlayer();
 
     const canvas = document.createElement("canvas");
-
     canvas.width = videoElement.videoWidth;
     canvas.height = videoElement.videoHeight;
 
     const ctx = canvas.getContext("2d");
-    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(
+      videoElement,
+      x,
+      y - 50,
+      width + 50,
+      height + 150,
+      x,
+      y,
+      width + 50,
+      height + 150
+    );
 
     imgRef.current.setAttribute("src", canvas.toDataURL("image/png"));
-    setValues({ ...values, isSnapshot: true });
   };
 
   return (
@@ -246,7 +295,7 @@ const Profile = () => {
             <Grid item xs={6}>
               <div className={classes.buttonArea}>
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   color="primary"
                   size="medium"
                   onClick={faceDetecting}
@@ -266,15 +315,40 @@ const Profile = () => {
               <div className={classes.canvasWrapper} ref={canvasRef}></div>
             </Grid>
             <Grid item xs={6}>
-              {isSnapshot ? (
-                <div className={classes.buttonArea}>
-                  <Button variant="outlined" color="primary" size="medium">
-                    Face detecting
-                  </Button>
-                </div>
-              ) : null}
+              <div className={classes.buttonArea}>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="medium"
+                  onClick={drawImage}
+                >
+                  TAKE SNAP SHOT
+                </Button>
+              </div>
               <div className={classes.profileSnapshot}>
+                {/* eslint-disable-next-line */}
                 <img ref={imgRef} className={classes.profilePhoto}></img>
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <div className={classes.submitButtonArea}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  size="large"
+                  onClick={handleCancelProfile}
+                >
+                  취소
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  onClick={handleSubmitProfile}
+                >
+                  내 프로필 저장하기
+                </Button>
               </div>
             </Grid>
           </Grid>
