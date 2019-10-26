@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/dev-dongwon/webrtc-with-react#readme",
   "dependencies": {
+    "@tensorflow/tfjs-node": "^1.2.11",
     "async-redis": "^1.1.7",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.0",
