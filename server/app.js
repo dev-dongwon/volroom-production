@@ -18,6 +18,7 @@ const express = require("express"),
 // server application
 const app = express();
 const clientApp = path.join(__dirname, '../client/build');
+const faceDetectModel = path.join(__dirname, 'public/models');
 
 // middlewares
 app.use(helmet());
@@ -30,5 +31,6 @@ const apiRouter = require("./routes/api");
 
 // routes
 app.use("/api", apiRouter);
+app.use("/models", express.static(faceDetectModel))
 app.use('*', express.static(clientApp));
 module.exports = app;
