@@ -37,3 +37,4 @@ export const GET_LOG_TYPES = "GET_LOG_TYPES";
 
 /* profile type */
 export const SET_PROFILE_STREAM = "SET_PROFILE_STREAM";
+export const SET_CANVAS_LOCATION = "SET_CANVAS_LOCATION";

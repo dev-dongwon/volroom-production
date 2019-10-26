@@ -1,18 +1,19 @@
-import React, { useContext, useReducer } from "react";
+import React, { useReducer } from "react";
 import axios from "../../utils/axios-api";
 import ProfileContext from "./profileContext";
 import ProfileReducer from "./profileReducer";
 import * as faceapi from "face-api.js";
 
-import { SET_PROFILE_STREAM } from "../types";
+import { SET_PROFILE_STREAM, SET_CANVAS_LOCATION } from "../types";
 
 const ProfileState = props => {
   const initialState = {
-    profileStream: null
+    profileStream: null,
+    imageLocationArr: []
   };
 
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
-  const { profileStream } = state;
+  const { profileStream, imageLocationArr } = state;
 
   const getStream = async () => {
     const setLocalStream = async () => {
@@ -39,7 +40,7 @@ const ProfileState = props => {
       });
   };
 
-  const detectFace = (videoRef, canvasRef) => {
+  const setFaceCanvas = (videoRef, canvasRef) => {
     const canvas = faceapi.createCanvasFromMedia(videoRef);
     canvasRef.append(canvas);
 
@@ -50,16 +51,30 @@ const ProfileState = props => {
 
     faceapi.matchDimensions(canvas, displaySize);
 
-    setInterval(async () => {
-      const detections = await faceapi
-        .detectAllFaces(videoRef, new faceapi.TinyFaceDetectorOptions())
-        .withFaceLandmarks()
-        .withFaceExpressions();
+    return {
+      displaySize,
+      canvas
+    };
+  };
 
-      const resizeDetections = faceapi.resizeResults(detections, displaySize);
-      canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-      faceapi.draw.drawDetections(canvas, resizeDetections);
-    }, 100);
+  const detectFaceArea = async (videoRef, displaySize, canvas) => {
+    const detections = await faceapi
+      .detectAllFaces(videoRef, new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks()
+      .withFaceExpressions();
+
+    const resizeDetections = faceapi.resizeResults(detections, displaySize);
+    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+    faceapi.draw.drawDetections(canvas, resizeDetections);
+    faceapi.draw.drawFaceLandmarks(canvas, resizeDetections);
+
+    if (resizeDetections.length > 0) {
+      const image = resizeDetections[0].alignedRect.box;
+      dispatch({
+        type: SET_CANVAS_LOCATION,
+        payload: [image.x, image.y, image.width, image.height]
+      });
+    }
   };
 
   const removeStream = stream => {
@@ -75,7 +90,9 @@ const ProfileState = props => {
         getStream,
         removeStream,
         profileStream,
-        detectFace
+        imageLocationArr,
+        setFaceCanvas,
+        detectFaceArea
       }}
     >
       {props.children}
