@@ -28,6 +28,11 @@ const instructions = {
       where: { email }
     });
     return user;
+  },
+
+  updateUser: async (id, userObj) => {
+    const user = await User.update(userObj, { where : { id } });
+    return user;
   }
 };
 

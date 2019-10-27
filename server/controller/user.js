@@ -1,6 +1,11 @@
-const { readUserData, createUser, isDupleUser } = require("../db/instructions/user"),
-      encryptPassword                           = require('../utils/encrypt'),
-      generateJwtToken                          = require('../utils/generate-jwt');
+const {
+    readUserData,
+    createUser,
+    isDupleUser,
+    updateUser
+  }                = require("../db/instructions/user"),
+  encryptPassword  = require("../utils/encrypt"),
+  generateJwtToken = require("../utils/generate-jwt");
 
 const controller = {
   // 유저 가져오기
@@ -16,10 +21,12 @@ const controller = {
   createUser: async (req, res, next) => {
     try {
       let { name, email, password } = req.body;
-      
+
       // 유저 중복 체크
       if (await isDupleUser(email)) {
-        return res.status(400).json({ msg : '동일한 이메일이나 이름의 유저가 존재합니다' });
+        return res
+          .status(400)
+          .json({ msg: "동일한 이메일이나 이름의 유저가 존재합니다" });
       }
 
       password = await encryptPassword(password);
@@ -27,7 +34,23 @@ const controller = {
 
       const token = await generateJwtToken(user);
       return res.json({ token });
+    } catch (error) {
+      next(error);
+    }
+  },
+  updateUser: async (req, res, next) => {
+    // 미들웨어에서 획득한 user와 요청 user id가 동일한지 비교
+    if (req.user.id !== req.params.id) {
+      return res.status(400).json({ msg: "권한이 없습니다" });
+    }
 
+    try {
+      const userObj = req.body;
+      const user = await updateUser(userObj);
+
+      // 업데이트 후 새로 토큰 발급
+      const token = await generateJwtToken(user);
+      return res.json({ token });
     } catch (error) {
       next(error);
     }
