@@ -3,8 +3,8 @@ const {
     createUser,
     isDupleUser,
     updateUser
-  }                = require("../db/instructions/user"),
-  encryptPassword  = require("../utils/encrypt"),
+  } = require("../db/instructions/user"),
+  encryptPassword = require("../utils/encrypt"),
   generateJwtToken = require("../utils/generate-jwt");
 
 const controller = {
@@ -40,16 +40,24 @@ const controller = {
   },
   updateUser: async (req, res, next) => {
     // 미들웨어에서 획득한 user와 요청 user id가 동일한지 비교
-    if (req.user.id !== req.params.id) {
+    if (Number(req.user.id) !== Number(req.params.id)) {
       return res.status(400).json({ msg: "권한이 없습니다" });
     }
 
     try {
       const userObj = req.body;
-      const user = await updateUser(userObj);
+      let imageLocation = null;
+
+      if (req.file) {
+        imageLocation = req.file.location;
+        userObj.photo = imageLocation;
+      }
+
+      await updateUser(req.params.id, userObj);
+      const user = await readUserData(req.params.id);
 
       // 업데이트 후 새로 토큰 발급
-      const token = await generateJwtToken(user);
+      const token = await generateJwtToken(user.dataValues);
       return res.json({ token });
     } catch (error) {
       next(error);
