@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 
-const generateJwtToken = async ({id, name, email, photo, google_auth}) => {
+const generateJwtToken = async ({id, name, email, introduction, photo, google_auth}) => {
   const payload = {
     user: {
-      id, name, email, photo, google_auth
+      id, name, email, introduction, photo, google_auth
     }
   };
 
