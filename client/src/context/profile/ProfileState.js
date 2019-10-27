@@ -1,19 +1,33 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import axios from "../../utils/axios-api";
 import ProfileContext from "./profileContext";
+import AlertContext from "../alert/alertContext";
 import ProfileReducer from "./profileReducer";
+import setAuthToken from "../../utils/setAuthToken";
 import * as faceapi from "face-api.js";
 
-import { SET_PROFILE_STREAM, SET_CANVAS_LOCATION } from "../types";
+import {
+  SET_PROFILE_STREAM,
+  SET_CANVAS_LOCATION,
+  SET_PROFILE_PHOTO
+} from "../types";
 
 const ProfileState = props => {
   const initialState = {
     profileStream: null,
-    imageLocationArr: []
+    imageLocationArr: [],
+    photo: null
   };
 
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
+
   const [state, dispatch] = useReducer(ProfileReducer, initialState);
-  const { profileStream, imageLocationArr } = state;
+  const { profileStream, imageLocationArr, photo } = state;
+
+  const setPhoto = imgSrc => {
+    dispatch({ type: SET_PROFILE_PHOTO, payload: imgSrc });
+  };
 
   const getStream = async () => {
     const setLocalStream = async () => {
@@ -84,6 +98,29 @@ const ProfileState = props => {
     dispatch({ type: SET_PROFILE_STREAM, payload: null });
   };
 
+  const updateProfile = async (id, formData) => {
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data"
+      }
+    };
+
+    try {
+      const res = await axios.patch(`/api/users/${id}`, formData, config);
+      const { token } = res.data;
+      localStorage.token = token;
+      setAuthToken(token);
+      setAlert("변경이 적용되었습니다");
+      
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1500);
+
+    } catch (error) {
+      setAlert("네트워크 오류입니다. 다시 시도해주세요")
+    }
+  };
+
   return (
     <ProfileContext.Provider
       value={{
@@ -92,7 +129,10 @@ const ProfileState = props => {
         profileStream,
         imageLocationArr,
         setFaceCanvas,
-        detectFaceArea
+        detectFaceArea,
+        updateProfile,
+        setPhoto,
+        photo
       }}
     >
       {props.children}

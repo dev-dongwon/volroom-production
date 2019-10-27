@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
+import urlToBlob from "canvas-to-blob";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, Modal, TextField, Grid, Typography } from "@material-ui/core";
 import ReactPlayer from "react-player";
 import ProfileContext from "../../context/profile/profileContext";
+import AuthContext from "../../context/auth/authContext";
 import useInterval from "use-interval";
 
 const useStyles = makeStyles(theme => ({
@@ -55,10 +57,10 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     width: "60%",
-    height: "60%",
+    height: "73%",
     marginLeft: "20%",
     borderRadius: "15px",
-    marginTop: "10%"
+    marginTop: "5%"
   },
   buttonArea: {
     textAlign: "center",
@@ -71,11 +73,19 @@ const useStyles = makeStyles(theme => ({
   },
   deleteBtn: {
     margin: theme.spacing(3),
+    marginRight: "35px",
     marginTop: "0",
     float: "right",
-    width: "300px",
-    height: "45px",
-    marginRight: "3%"
+    width: "250px",
+    height: "45px"
+  },
+  submitBtn: {
+    margin: theme.spacing(3),
+    marginRight: "10px",
+    marginTop: "0",
+    float: "right",
+    width: "250px",
+    height: "45px"
   },
   contentArea: {
     marginBottom: "5%"
@@ -86,7 +96,7 @@ const useStyles = makeStyles(theme => ({
   },
   canvasWrapper: {
     position: "absolute",
-    top: "31%"
+    top: "35%"
   },
   submitButtonArea: {
     marginTop: "5%",
@@ -100,6 +110,9 @@ const useStyles = makeStyles(theme => ({
 const Profile = () => {
   const classes = useStyles();
   const profileContext = useContext(ProfileContext);
+  const authContext = useContext(AuthContext);
+
+  const { user } = authContext;
 
   let {
     getStream,
@@ -107,7 +120,10 @@ const Profile = () => {
     removeStream,
     imageLocationArr,
     setFaceCanvas,
-    detectFaceArea
+    detectFaceArea,
+    updateProfile,
+    setPhoto,
+    photo
   } = profileContext;
 
   const videoRef = useRef();
@@ -131,6 +147,27 @@ const Profile = () => {
     canvasVal
   } = values;
 
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    password: "",
+    introduction: "",
+    photoLink: "https://www.fourjay.org/myphoto/f/14/143147_avatar-png.jpg"
+  });
+
+  let { name, password, introduction } = userInfo;
+
+  useEffect(() => {
+    if (user) {
+      setUserInfo({
+        ...values,
+        name: user.name ? user.name : "",
+        introduction: user.introduction ? user.introduction : "",
+        password: "",
+        photoLink: user.photo
+      });
+    }
+  }, [user]);
+
   useEffect(() => {
     if (profileStream) {
       setValues({ ...values, open: true });
@@ -147,12 +184,17 @@ const Profile = () => {
     intervalFlag ? 100 : null
   );
 
+  const onChange = e => {
+    setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+  };
+
   const handleOpen = async () => {
     await getStream();
   };
 
   const handleSubmitProfile = () => {
     originImgRef.current.src = imgRef.current.src;
+    setPhoto(imgRef.current.src);
     handleClose();
   };
 
@@ -179,7 +221,7 @@ const Profile = () => {
     });
   };
 
-  const drawImage = () => {
+  const drawImage = async () => {
     const [x, y, width, height] = imageLocationArr;
     const videoElement = videoRef.current.getInternalPlayer();
 
@@ -190,9 +232,9 @@ const Profile = () => {
     const ctx = canvas.getContext("2d");
     ctx.drawImage(
       videoElement,
-      x,
+      x - 10,
       y - 50,
-      width + 50,
+      width + 70,
       height + 150,
       0,
       0,
@@ -203,76 +245,112 @@ const Profile = () => {
     imgRef.current.setAttribute("src", canvas.toDataURL("image/png"));
   };
 
+  const submitProfile = e => {
+    e.preventDefault();
+    const formData = new FormData();
+
+    if (photo) {
+      const file = new File([urlToBlob(photo)], `${user.id}.png`, {
+        type: "image/png",
+        lastModified: Date.now()
+      });
+      formData.append("profile", file);
+    }
+
+    formData.append("name", name);
+    formData.append("introduction", introduction);
+
+    if (password !== "") {
+      formData.append("password", password);
+    }
+
+    updateProfile(user.id, formData);
+  };
+
   return (
     <div className={classes.root}>
       <Typography className={classes.typo}>{"MY PROFILE"}</Typography>
       <div className={classes.contentArea}>
         <Typography className={classes.subTypo}>{"MY PROFILE"}</Typography>
-        <Grid container spacing={1} className={classes.gridContainer}>
-          <Grid item xs={3}>
-            <div className={classes.photoWrapper}>
-              <div className={classes.profilePhotoArea}>
-                <img
-                  className={classes.profilePhoto}
-                  src="https://www.fourjay.org/myphoto/f/14/143147_avatar-png.jpg"
-                  alt="avatar"
-                  ref={originImgRef}
-                ></img>
-              </div>
-            </div>
-            <div className={classes.buttonArea}>
-              <Button
-                variant="outlined"
-                color="primary"
-                size="medium"
-                onClick={handleOpen}
-              >
-                프로필 사진 다시 찍기
-              </Button>
-            </div>
-          </Grid>
-          <Grid item xs={9}>
-            <TextField
-              id="name"
-              label="이름"
-              name="name"
-              className={classes.textField}
-              placeholder="변경할 이름을 입력해주세요"
-              variant="outlined"
-              fullWidth
-              autoFocus
-            />
-            <TextField
-              id="introduction"
-              label="자기소개"
-              name="introduction"
-              className={classes.textField}
-              placeholder="자기소개를 입력해주세요"
-              variant="outlined"
-              fullWidth
-            />
-            <TextField
-              id="password"
-              label="비밀번호"
-              type="password"
-              name="password"
-              fullWidth
-              className={classes.textField}
-              placeholder="비밀번호 변경을 원할 경우에만 입력해주세요"
-              variant="outlined"
-            />
-          </Grid>
-        </Grid>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            size="large"
-            className={classes.deleteBtn}
-          >
-            변경 내용 반영
-          </Button>
+        <div className={classes.contentTypo}>
+          * 프로필 이미지 업데이트의 경우 서버 상태에 따라 다소 시간이 필요할 수
+          있습니다
         </div>
+        <form className={classes.form} noValidate>
+          <Grid container spacing={1} className={classes.gridContainer}>
+            <Grid item xs={3}>
+              <div className={classes.photoWrapper}>
+                <div className={classes.profilePhotoArea}>
+                  <img
+                    className={classes.profilePhoto}
+                    src={userInfo.photoLink}
+                    alt="avatar"
+                    ref={originImgRef}
+                  ></img>
+                </div>
+              </div>
+              <div className={classes.buttonArea}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  size="medium"
+                  onClick={handleOpen}
+                >
+                  프로필 사진 다시 찍기
+                </Button>
+              </div>
+            </Grid>
+            <Grid item xs={9}>
+              <TextField
+                id="name"
+                label="이름"
+                name="name"
+                className={classes.textField}
+                placeholder="변경할 이름을 입력해주세요"
+                variant="outlined"
+                value={name}
+                fullWidth
+                autoFocus
+                onChange={onChange}
+              />
+              <TextField
+                id="introduction"
+                label="자기소개"
+                name="introduction"
+                className={classes.textField}
+                placeholder="자기소개를 입력해주세요"
+                variant="outlined"
+                value={introduction}
+                fullWidth
+                onChange={onChange}
+              />
+              <TextField
+                id="password"
+                label="비밀번호"
+                type="password"
+                name="password"
+                value={password}
+                fullWidth
+                className={classes.textField}
+                placeholder="비밀번호 변경을 원할 경우에만 입력해주세요"
+                variant="outlined"
+                onChange={onChange}
+              />
+              <div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  type="submit"
+                  className={classes.submitBtn}
+                  onClick={submitProfile}
+                >
+                  변경 내용 반영
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
+        </form>
       </div>
       <div>
         <Typography className={classes.subTypo}>
@@ -297,6 +375,17 @@ const Profile = () => {
       <Modal open={open} className={classes.modal} onClose={handleClose}>
         <div className={classes.paper}>
           <Grid container spacing={1} className={classes.gridContainer}>
+            <Grid item xs={12}>
+              <div>
+                <div className={classes.subTypo}>
+                  얼굴 인식 후, 프로필 사진을 등록하세요
+                </div>
+                <div className={classes.contentTypo}>
+                  사용 방법 : face detecting을 눌러 얼굴 인식 후, 파란색 윤곽이
+                  나오면 take snap shot을 눌러 사진을 촬영하세요!
+                </div>
+              </div>
+            </Grid>
             <Grid item xs={6}>
               <div className={classes.buttonArea}>
                 <Button
