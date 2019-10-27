@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import urlToBlob from "canvas-to-blob";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Modal, Grid, Typography } from "@material-ui/core";
+import { Button, Modal, Grid } from "@material-ui/core";
 import ReactPlayer from "react-player";
 import ProfileContext from "../../context/profile/profileContext";
 import AuthContext from "../../context/auth/authContext";
@@ -147,6 +147,7 @@ const Profile = props => {
     }
 
     stream();
+    // eslint-disable-next-line
   }, []);
 
   useInterval(

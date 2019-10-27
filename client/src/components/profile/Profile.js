@@ -166,6 +166,7 @@ const Profile = () => {
         photoLink: user.photo
       });
     }
+    // eslint-disable-next-line
   }, [user]);
 
   useEffect(() => {
