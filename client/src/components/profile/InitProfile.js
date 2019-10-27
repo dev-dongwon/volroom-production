@@ -1,19 +1,15 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
+import urlToBlob from "canvas-to-blob";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, Modal, TextField, Grid, Typography } from "@material-ui/core";
+import { Button, Modal, Grid, Typography } from "@material-ui/core";
 import ReactPlayer from "react-player";
 import ProfileContext from "../../context/profile/profileContext";
+import AuthContext from "../../context/auth/authContext";
 import useInterval from "use-interval";
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
-  },
-  typo: {
-    fontWeight: "900",
-    fontSize: "50px",
-    margin: theme.spacing(3),
-    color: "black"
   },
   subTypo: {
     fontWeight: "600",
@@ -55,10 +51,10 @@ const useStyles = makeStyles(theme => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     width: "60%",
-    height: "60%",
+    height: "73%",
     marginLeft: "20%",
     borderRadius: "15px",
-    marginTop: "10%"
+    marginTop: "5%"
   },
   buttonArea: {
     textAlign: "center",
@@ -86,7 +82,7 @@ const useStyles = makeStyles(theme => ({
   },
   canvasWrapper: {
     position: "absolute",
-    top: "31%"
+    top: "35%"
   },
   submitButtonArea: {
     marginTop: "5%",
@@ -97,9 +93,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Profile = () => {
+const Profile = props => {
   const classes = useStyles();
   const profileContext = useContext(ProfileContext);
+  const authContext = useContext(AuthContext);
+
+  const { user } = authContext;
 
   let {
     getStream,
@@ -107,12 +106,14 @@ const Profile = () => {
     removeStream,
     imageLocationArr,
     setFaceCanvas,
-    detectFaceArea
+    detectFaceArea,
+    updateProfile,
+    setPhoto,
+    photo
   } = profileContext;
 
   const videoRef = useRef();
   const imgRef = useRef();
-  const originImgRef = useRef();
   const canvasRef = useRef();
 
   const [values, setValues] = useState({
@@ -156,7 +157,18 @@ const Profile = () => {
   );
 
   const handleSubmitProfile = () => {
-    originImgRef.current.src = imgRef.current.src;
+    setPhoto(imgRef.current.src);
+    const formData = new FormData();
+
+    if (photo) {
+      const file = new File([urlToBlob(photo)], `${user.id}.png`, {
+        type: "image/png",
+        lastModified: Date.now()
+      });
+      formData.append("profile", file);
+    }
+
+    updateProfile(user.id, formData);
     handleClose();
   };
 
@@ -167,6 +179,7 @@ const Profile = () => {
   const handleClose = () => {
     removeStream(profileStream);
     setValues({ ...values, intervalFlag: false });
+    props.history.push("/");
   };
 
   const faceDetecting = () => {
@@ -212,6 +225,17 @@ const Profile = () => {
       <Modal open={open} className={classes.modal} onClose={handleClose}>
         <div className={classes.paper}>
           <Grid container spacing={1} className={classes.gridContainer}>
+            <Grid item xs={12}>
+              <div>
+                <div className={classes.subTypo}>
+                  얼굴 인식 후, 프로필 사진을 등록하세요
+                </div>
+                <div className={classes.contentTypo}>
+                  사용 방법 : face detecting을 눌러 얼굴 인식 후, 파란색 윤곽이
+                  나오면 take snap shot을 눌러 사진을 촬영하세요!
+                </div>
+              </div>
+            </Grid>
             <Grid item xs={6}>
               <div className={classes.buttonArea}>
                 <Button
@@ -259,19 +283,19 @@ const Profile = () => {
                 <Button
                   variant="contained"
                   color="secondary"
-                  size="large"
+                  size="medium"
                   onClick={handleCancelProfile}
                 >
-                  취소
+                  건너뛰기
                 </Button>
                 <Button
                   variant="contained"
                   color="primary"
-                  size="large"
+                  size="medium"
                   className={classes.button}
                   onClick={handleSubmitProfile}
                 >
-                  내 프로필 저장하기
+                  사진 등록하기
                 </Button>
               </div>
             </Grid>
