@@ -108,8 +108,6 @@ const Profile = props => {
     setFaceCanvas,
     detectFaceArea,
     updateProfile,
-    setPhoto,
-    photo
   } = profileContext;
 
   const videoRef = useRef();
@@ -158,11 +156,9 @@ const Profile = props => {
   );
 
   const handleSubmitProfile = () => {
-    setPhoto(imgRef.current.src);
     const formData = new FormData();
-
-    if (photo) {
-      const file = new File([urlToBlob(photo)], `${user.id}.png`, {
+    if (imgRef.current.src) {
+      const file = new File([urlToBlob(imgRef.current.src)], `${user.id}.png`, {
         type: "image/png",
         lastModified: Date.now()
       });
