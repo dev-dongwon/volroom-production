@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { makeStyles, Button, Divider } from "@material-ui/core";
+import { makeStyles, Button, Divider, Avatar } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AuthContext from "../../../context/auth/authContext";
 
@@ -38,6 +38,17 @@ const useStyles = makeStyles(theme => ({
   welcome: {
     fontWeight: "700",
     marginRight: theme.spacing(1)
+  },
+  nameArea: {
+    fontWeight: "bolder",
+    fontSize: "25px"
+  },
+  avatar: {
+    margin: 10,
+    marginLeft: "40%",
+    marginTop: "5%",
+    width: 60,
+    height: 60
   }
 }));
 
@@ -74,8 +85,20 @@ const Sign = () => {
     <div className={classes.top}>
       <Divider variant="middle" className={classes.divider}></Divider>
       <div className={classes.profile}>
-        <span className={classes.welcome}>Welcome</span>
-        <span>{user.name}</span>
+        <div>
+          <span className={classes.nameArea}>{user.name}</span>
+        </div>
+        <div>
+          <Avatar
+            alt="avatar"
+            src={
+              user && user.photo
+                ? user.photo
+                : "https://www.fourjay.org/myphoto/f/14/143147_avatar-png.jpg"
+            }
+            className={classes.avatar}
+          />
+        </div>
       </div>
       <div className={classes.wrapper}>
         <Button
