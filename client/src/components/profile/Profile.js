@@ -34,7 +34,6 @@ const useStyles = makeStyles(theme => ({
   profilePhotoArea: {
     height: "230px",
     width: "230px",
-    border: "1px solid red",
     borderRadius: "50%",
     overflow: "hidden",
     display: "flex",
@@ -82,7 +81,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: "5%"
   },
   profileSnapshot: {
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: "5%"
   },
   canvasWrapper: {
     position: "absolute",
@@ -112,6 +112,7 @@ const Profile = () => {
 
   const videoRef = useRef();
   const imgRef = useRef();
+  const originImgRef = useRef();
   const canvasRef = useRef();
 
   const [values, setValues] = useState({
@@ -150,7 +151,10 @@ const Profile = () => {
     await getStream();
   };
 
-  const handleSubmitProfile = () => {};
+  const handleSubmitProfile = () => {
+    originImgRef.current.src = imgRef.current.src;
+    handleClose();
+  };
 
   const handleCancelProfile = () => {
     handleClose();
@@ -190,10 +194,10 @@ const Profile = () => {
       y - 50,
       width + 50,
       height + 150,
-      x,
-      y,
-      width + 50,
-      height + 150
+      0,
+      0,
+      canvas.width,
+      canvas.height
     );
 
     imgRef.current.setAttribute("src", canvas.toDataURL("image/png"));
@@ -212,6 +216,7 @@ const Profile = () => {
                   className={classes.profilePhoto}
                   src="https://www.fourjay.org/myphoto/f/14/143147_avatar-png.jpg"
                   alt="avatar"
+                  ref={originImgRef}
                 ></img>
               </div>
             </div>
@@ -326,8 +331,12 @@ const Profile = () => {
                 </Button>
               </div>
               <div className={classes.profileSnapshot}>
-                {/* eslint-disable-next-line */}
-                <img ref={imgRef} className={classes.profilePhoto}></img>
+                <div className={classes.photoWrapper}>
+                  <div className={classes.profilePhotoArea}>
+                    {/* eslint-disable-next-line */}
+                    <img ref={imgRef} className={classes.profilePhoto}></img>
+                  </div>
+                </div>
               </div>
             </Grid>
             <Grid item xs={12}>
