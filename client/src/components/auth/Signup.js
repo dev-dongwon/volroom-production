@@ -49,7 +49,7 @@ export default function Signup(props) {
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push('/');
+      props.history.push("/initProfile");
     }
 
     if (error) {
