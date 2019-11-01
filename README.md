@@ -5,13 +5,15 @@
 ![image](https://user-images.githubusercontent.com/43179397/67191397-7d556e80-f42c-11e9-82cc-63e1e9391e57.png)
 
 
+## demo link
 
-- 구경하기
-  - https://www.volroomup.space
+- https://www.volroomup.space
+- chrome 브라우저에 최적화 되어 있습니다.
 
-- 주의사항
-  - chrome 브라우저에 최적화 되어 있습니다.
 
+## demo video link (시연 연상)
+
+- https://youtu.be/z1xjb7_xsLI
 
 
 ## 프로젝트 요약 및 기능
