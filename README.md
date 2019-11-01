@@ -14,25 +14,14 @@
 
 
 
-## 주요 기능
+## 프로젝트 요약 및 기능
 
-- 실시간 채팅
-- 유저 Camera의 Video, Audio 공유
-- 유저 Device의 Screen Video, Internal Audio 공유
-- 유저 접속 시간, Device OS, browser 등 통계 그래프
+![volroom-프로젝트요약](https://user-images.githubusercontent.com/43179397/68010859-1310b980-fcc9-11e9-8f40-6ea03b277449.png)
 
 
+## 고민과 문제 해결
 
-## 적용
-
-- 실시간 코드 리뷰
-- 원격 의료 지원 (의료 device 연결과 법적인 제재만 없다면!)
-- 소규모 컨퍼런스 회의
-- 소규모 그룹 과외 및 개인 과외
-- 언어 교환
-- 악기 연주
-- 등등 Real time video && audio 가 필요한 모든 곳에서!
-
+![volroom-고민과문제해결](https://user-images.githubusercontent.com/43179397/68010860-1310b980-fcc9-11e9-9132-b1ce01d17b35.png)
 
 
 ## 앞으로 과제
@@ -41,8 +30,7 @@
 - 다중 사용자 접속 시에도 안정적인 스트리밍이 될 수 있도록 안정화
 
 
-
 ## 기타
 
 - 본 저장소는 배포만을 위한 저장소입니다
-- 자세한 커밋 이력은 https://github.com/dev-dongwon/webrtc-with-react를 참조해 주세요
+- 자세한 커밋 이력은 https://github.com/dev-dongwon/webrtc-with-react 를 참조해 주세요
