@@ -18,11 +18,13 @@
 
 ## 프로젝트 요약 및 기능
 
+(클릭하시면 크게 보실 수 있습니다)
 ![volroom-프로젝트요약](https://user-images.githubusercontent.com/43179397/68010859-1310b980-fcc9-11e9-8f40-6ea03b277449.png)
 
 
 ## 고민과 문제 해결
 
+(클릭하시면 크게 보실 수 있습니다)
 ![volroom-고민과문제해결](https://user-images.githubusercontent.com/43179397/68010860-1310b980-fcc9-11e9-9132-b1ce01d17b35.png)
 
 
