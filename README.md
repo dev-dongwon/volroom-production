@@ -13,7 +13,7 @@
 
 ## demo video link (시연 연상)
 
-- https://youtu.be/z1xjb7_xsLI
+- https://youtu.be/4emDmPg3Mpw
 
 
 ## 프로젝트 요약 및 기능
