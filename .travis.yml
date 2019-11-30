@@ -13,5 +13,5 @@ deploy:
   secret_access_key: $SECRET_KEY
   region: "ap-northeast-2"
   app: "volroom"
-  env: "volroom"
-  bucket_name: "elasticbeanstalk-ap-northeast-2-158721102684"
+  env: "Volroom-env"
+  bucket_name: "elasticbeanstalk-ap-northeast-2-798116789523"
