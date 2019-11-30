@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/dev-dongwon/volroom-production.svg?branch=master)](https://travis-ci.com/dev-dongwon/volroom-production)
+
 # Volroom Up
 
 **WebRTC (Web Real-Time Communications)** 와 **Socket.io**를 활용한 **실시간 화상 채팅 웹 애플리케이션**
