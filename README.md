@@ -15,7 +15,7 @@
 
 ## demo video link (시연 연상)
 
-- https://youtu.be/4emDmPg3Mpw
+- https://drive.google.com/file/d/1jNKJ5Ky4xg4IBo4yZJgQEavhbMSWAGfu/view?usp=sharing
 
 
 ## 프로젝트 요약 및 기능
