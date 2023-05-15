@@ -7,12 +7,6 @@
 ![image](https://user-images.githubusercontent.com/43179397/67191397-7d556e80-f42c-11e9-82cc-63e1e9391e57.png)
 
 
-## demo link
-
-- https://www.volroomup.space
-- chrome 브라우저에 최적화 되어 있습니다.
-
-
 ## demo video link (시연 연상)
 
 - https://drive.google.com/file/d/1jNKJ5Ky4xg4IBo4yZJgQEavhbMSWAGfu/view?usp=sharing
